@@ -62,7 +62,7 @@ Status based methods of looking at impact based upon propensity score matching A
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
 demographic subgroups.
 
-### Break: April 10, 2:50 to 3:00
+### Break: April 10, 2:45 to 3:00
 
 ### Missing Data (Part 1): April 11, 3:00 to 4:30 pm (Nathan Dadey)
 
@@ -84,9 +84,9 @@ our work with states we developed numerous multiple imputation procedures to hel
 procedures to accommodate changing enrollment. Students will learn about these procedures and use example data to see how missing data can
 interfere with inferences one makes from assessment data.
 
-### Break: April 11, 2:50 to 3:00
+### Break: April 11, 2:45 to 3:00
 
 ### Academic Impact (Part 2): April 11, 3 to 4:30 pm (Damian Betebenner)
 
 
-### Wrap-up/Q&A: April 11, 4:30 to 5:00 pm
+### Wrap-up/Q&A: April 11, 4:30 to 5:00 pm 
