@@ -54,13 +54,15 @@ caused numerous disruptions and alterations to student testing and we want to fa
 cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout 
 the rest of the session.
 
-### Academic Impact (Part 1): April 10, 2:00 to 3:00 pm (Damian Betebenner)
+### Academic Impact (Part 1): April 10, 2:00 to 2:50 pm (Damian Betebenner)
 
 Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
 Status based methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
 demographic subgroups.
+
+### Break: April 10, 2:50 to 3:00
 
 ### Missing Data (Part 1): April 11, 3:00 to 4:30 pm (Nathan Dadey)
 
@@ -74,13 +76,15 @@ interfere with inferences one makes from assessment data.
 ### Summary and next steps: April 11, 4:30 to 5:00 pm (Damian Betebenner)
  
 
-### Missing Data (Part 2): April 11, 1 to 3 pm (Adam VanIwaarden)
+### Missing Data (Part 2): April 11, 1 to 2:50 pm (Adam VanIwaarden)
 
-Multiple Imputation and Propensity Score Matching: A substantial issue associated with assessment data from 2021 was whether aggregate results
+Multiple Imputation: A substantial issue associated with assessment data from 2021 was whether aggregate results
 (e.g., school level results) could be compared to previous year due to missing data (non-tested students) and changing enrollment. As part of
 our work with states we developed numerous multiple imputation procedures to help understand missing data as well as propensity score matching
 procedures to accommodate changing enrollment. Students will learn about these procedures and use example data to see how missing data can
 interfere with inferences one makes from assessment data.
+
+### Break: April 11, 2:50 to 3:00
 
 ### Academic Impact (Part 2): April 11, 3 to 4:30 pm (Damian Betebenner)
 
