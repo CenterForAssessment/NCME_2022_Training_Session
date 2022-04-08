@@ -47,29 +47,26 @@ training session well prepared to analyze their own data sets with regard to the
 
 ## Schedule
 
-### April 10, 1 to 3 pm
+### Background: April 10, 1 to 3 pm ([@Dbetebenner](Damian Betebenner))
 
-Introduction to Data Analysis in the Era of COVID-19 During the first two hours participants will be given an overview of the assessment data
-landscape that exists due to the pandemic. The pandemic caused numerous disruptions and alterations to student testing and we want to
-familiarize participants with some of the major ones (e.g., cancelled testing). During these two hours participants will install the required
-R packages necessary to perform analyses conducted throughout the rest of the session.
+During the first two hours participants will be given an overview of the assessment data landscape that exists due to the pandemic. The pandemic 
+caused numerous disruptions and alterations to student testing and we want to familiarize participants with some of the major ones (e.g., 
+cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout 
+the rest of the session.
 
-### April 10, 3 to 5 pm
+### Academic Impact (Part 1): April 10, 3 to 5 pm
 
 Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
 Status based methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
-Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by demographic subgroups.
+Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
+demographic subgroups.
 
-### April 11, 1 to 3 pm
+### Academic Impact (Part 2): April 11, 1 to 3 pm (Damian Betebenner)
 
-Validation of test results: In many states the pandemic led to non-standard testing situations for students including remote administration,
-shortened test forms, extended testing windows. Each of these situations holds the potential to invalidate these results for many purposes.
-For example, comparability to previous test results could be problematic because of remote testing. In the 5th and 6th hours participants will
-be led through several real world examples and shown by instructors how test results were examined in support of a validity argument for a
-designated purpose.
 
-### April 11, 3 to 5 pm
+
+### Missing Data: April 11, 3 to 5 pm
 
 Multiple Imputation and Propensity Score Matching: A substantial issue associated with assessment data from 2021 was whether aggregate results
 (e.g., school level results) could be compared to previous year due to missing data (non-tested students) and changing enrollment. As part of
