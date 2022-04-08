@@ -47,14 +47,14 @@ training session well prepared to analyze their own data sets with regard to the
 
 ## Schedule
 
-### Background: April 10, 1 to 2:30 pm ([@Dbetebenner](Damian Betebenner))
+### Background: April 10, 1 to 2:00 pm ([@Dbetebenner](Damian Betebenner))
 
 During the first two hours participants will be given an overview of the assessment data landscape that exists due to the pandemic. The pandemic 
 caused numerous disruptions and alterations to student testing and we want to familiarize participants with some of the major ones (e.g., 
 cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout 
 the rest of the session.
 
-### Academic Impact (Part 1): April 10, 2:30 to 3:30 pm (Damian Betebenner)
+### Academic Impact (Part 1): April 10, 2:00 to 3:00 pm (Damian Betebenner)
 
 Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
@@ -62,7 +62,7 @@ Status based methods of looking at impact based upon propensity score matching A
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
 demographic subgroups.
 
-### Missing Data (Part 1): April 11, 3:30 to 4:30 pm (Nathan Dadey)
+### Missing Data (Part 1): April 11, 3:00 to 4:30 pm (Nathan Dadey)
 
 Descriptive examination of missing data patterns. 
 Multiple Imputation and Propensity Score Matching: A substantial issue associated with assessment data from 2021 was whether aggregate results
