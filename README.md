@@ -3,19 +3,21 @@
 
 # Data Validation and Analysis in the Era of COVID-19
 
-In this full-day session, participants will be introduced to a comprehensive suite of R based tools that can be used to
-address numerous education assessment data analysis and validation issues that arose due the the pandemic. One of the
+In this two, half-day NCME training session, participants will be introduced to suite of R based analyses that can be used to
+address numerous education assessment data analysis and validation issues that arose due the the COVID-19 pandemic. One of the
 consequences of the disrupted education due to the pandemic has been cancellation, interruption and modification of the
 educational assessment of students. For example, in spring 2020, just after the pandemic began in the United States, all
-state summative testing was cancelled after the federal government issues assessment waivers. Similarly, as student education
-took place remotely, interim assessment providers have altered their products to allow students to take tests while at home.
-These and other alterations to standard testing protocol present unique challenges to psyshometricians and data analysts who validate
-and use these data.
+state summative testing was cancelled after the United States Department of Education issued assessment waivers to states.
+Similarly, as student education took place remotely, interim assessment providers have altered their products to allow students
+to take tests while at home. These and other alterations to standard testing protocol present unique challenges to psyshometricians
+and data analysts who validate and use these data.
 
 Several practical issues emerged due to the pandemic that will be focal topics of instruction during this training session:
 
-## Analysis of Skip-Year Data
+## Academic Impact Analysis
 
+A common use of student assessment data is to try and determine the academic impact associated with the pandemic. Two complementary
+ways of investigating academic impact are to look at change in academic attainment (i.e. status) and change in academic growth.
 Due to the disruption of state assessment in spring 2020, many states were tasked with analyzing their state testing data across
 a span of two years. Analysis of status and growth across a two-year time span was common in many states. Using approaches developed in
 our work with states, we show how skip-year status and growth comparisons can be conducted in order to investigate the academic impact of
@@ -47,11 +49,11 @@ training session well prepared to analyze their own data sets with regard to the
 
 ## Schedule
 
-### Background: April 10, 1 to 2:00 pm ([@Dbetebenner](Damian Betebenner))
+### Background: April 10, 1 to 2:00 pm [@Dbetebenner](https://github.com/dbetebenner)
 
-During the first two hours participants will be given an overview of the assessment data landscape that exists due to the pandemic. The pandemic 
-caused numerous disruptions and alterations to student testing and we want to familiarize participants with some of the major ones (e.g., 
-cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout 
+During the first two hours participants will be given an overview of the assessment data landscape that exists due to the pandemic. The pandemic
+caused numerous disruptions and alterations to student testing and we want to familiarize participants with some of the major ones (e.g.,
+cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout
 the rest of the session.
 
 ### Academic Impact (Part 1): April 10, 2:00 to 2:50 pm (Damian Betebenner)
@@ -66,7 +68,7 @@ demographic subgroups.
 
 ### Missing Data (Part 1): April 11, 3:00 to 4:30 pm (Nathan Dadey)
 
-Descriptive examination of missing data patterns. 
+Descriptive examination of missing data patterns.
 Multiple Imputation and Propensity Score Matching: A substantial issue associated with assessment data from 2021 was whether aggregate results
 (e.g., school level results) could be compared to previous year due to missing data (non-tested students) and changing enrollment. As part of
 our work with states we developed numerous multiple imputation procedures to help understand missing data as well as propensity score matching
@@ -74,7 +76,7 @@ procedures to accommodate changing enrollment. Students will learn about these p
 interfere with inferences one makes from assessment data.
 
 ### Summary and next steps: April 11, 4:30 to 5:00 pm (Damian Betebenner)
- 
+
 
 ### Missing Data (Part 2): April 11, 1 to 2:50 pm (Adam VanIwaarden)
 
@@ -89,4 +91,4 @@ interfere with inferences one makes from assessment data.
 ### Academic Impact (Part 2): April 11, 3 to 4:30 pm (Damian Betebenner)
 
 
-### Wrap-up/Q&A: April 11, 4:30 to 5:00 pm 
+### Wrap-up/Q&A: April 11, 4:30 to 5:00 pm
