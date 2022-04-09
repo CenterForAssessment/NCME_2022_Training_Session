@@ -39,6 +39,11 @@ xaringanExtra::use_logo(
 xaringanExtra::use_tile_view()
 ```
 
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+
 ???
 
 Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
@@ -317,7 +322,7 @@ DT::datatable(
     ```
 
     Then you will see a timer counting down from `01:00`, to `00:59`, `00:58`, ... When the time is out, the timer will continue but the time turns red.
-    
+
 ---
 
 # Some Tips
@@ -332,7 +337,7 @@ DT::datatable(
         nature:
           titleSlideClass: [top, left, inverse]
     ```
-    
+
 --
 
 - If you'd like to create your own title slide, disable **xaringan**'s title slide with the `seal = FALSE` option of `moon_reader`.
@@ -412,8 +417,8 @@ An example of using the trailing comment `#<<` to highlight lines:
 ````markdown
 `r ''````{r tidy=FALSE}
 library(ggplot2)
-ggplot(mtcars) + 
-  aes(mpg, disp) + 
+ggplot(mtcars) +
+  aes(mpg, disp) +
   geom_point() +   #<<
   geom_smooth()    #<<
 ```
@@ -423,8 +428,8 @@ Output:
 
 ```{r tidy=FALSE, eval=FALSE}
 library(ggplot2)
-ggplot(mtcars) + 
-  aes(mpg, disp) + 
+ggplot(mtcars) +
+  aes(mpg, disp) +
   geom_point() +   #<<
   geom_smooth()    #<<
 ```
@@ -485,7 +490,7 @@ Question: what does `highlight.output = c(TRUE, FALSE)` mean? (Hint: think about
     ```
 
     will be translated to
-    
+
     ```html
     <img src="image.jpg" style="width: 50%" />
     ```
@@ -546,7 +551,7 @@ See [yihui/xaringan#83](https://github.com/yihui/xaringan/issues/83) for an exam
 **xaringan** also supports Sass support via **rmarkdown**. Suppose you want to use the same color for different elements, e.g., first heading and bold text. You can create a `.scss` file, say `mytheme.scss`, using the [sass](https://sass-lang.com/) syntax with variables:
 
 ```scss
-$mycolor: #ff0000; 
+$mycolor: #ff0000;
 .remark-slide-content > h1 { color: $mycolor; }
 .remark-slide-content strong { color: $mycolor; }
 ```
