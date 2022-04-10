@@ -44,157 +44,68 @@ xaringanExtra::use_tile_view()
 xaringanExtra::use_clipboard()
 ```
 
-# Overview
+# Data
 
 ---
 
-# Welcome to our NCME 2022
-# Training Session
+## There are several data considerations that need to be addressed.
 
 --
 
-## The Presenters
-
-- [Damian Betebenner](https://github.com/dbetebenner), Center for Assessment
+- We are going to utilize simulated annual state assessment data to investigate academic impact both in terms of status and growth.
 
 --
 
-- [Adam VanIwaarden](https://github.com/adamviAdam), Center for Assessment
+- The data we will utilize spans 7 years (2016 to 2023) with data missing in 2020 due to the pandemic.
+- This situation is very similar to that found in most state assessment programs.
 
 --
 
-- [Nathan Dadey](https://github.com/ndadey), Center for Assessment
+- In order to compare pre-pandemic performance (status or growth) to current performance (post-pandemic?) the assessment must be on the same scale.
+- The assessment data we will use has a common vertical-scale across all of the year.
 
+--
+
+- It goes without saying that running analyses to assess pandemic related academic impact assumes that the data derived are valid in the sense that they accurately describe student performance with regard to the standards being assessed.
 
 ---
 
-# Data Visualization and Analysis in the Era of COVID-19
+# Data
 
---
+- The data set we will utilize is called __sgpData_LONG_COVID__ and is a part of the __SGPdata__ package you've installed.
+- Load the package into your R environment:
 
-## The Agenda: Day 1
+```{r eval=TRUE, tidy=FALSE}
+require("SGPdata")
+```
 
-- Overview and Background: April 10th, 1:00 to 2:00 pm [@dbetebenner](https://github.com/dbetebenner)
+```{r eval=TRUE, tidy=FALSE}
+dim(sgpData_LONG_COVID)
+```
 
---
-
-- Computer Setup: April 10, 2:00 to 2:30
-
---
-
-- Break: April 10, 2:30 to 2:45
-
---
-
-- Academic Impact (Part 1): April 10, 2:45 to 3:45 pm [@dbetebenner](https://github.com/dbetebenner)
-
---
-
-- Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
-
---
-
-- Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
-
----
-
-# Data Visualization and Analysis in the Era of COVID-19
-
---
-
-## The Agenda: Day 2
-
-- Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
-
---
-
-- Break: April 11, 3:00 to 3:15
-
---
-
-- Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@dbetebenner](https://github.com/dbetebenner)
-
---
-
-- Wrap-up/Q&A: April 11, 4:45 to 5:00 pm
-
-
----
-
-# Data Visualization and Analysis in the Era of COVID-19
-
---
-
-## Resources
---
-
-All presentations and materials associated with the training session are located in a GitHub repo:
-
-https://github.com/centerforassessment/NCME_2022_Training_Session
-
---
-
-Associated with the repo is a GitHub hosted website and contains all the presentations and associated documentation
-
-https://centerforassessment.github.io/NCME_2022_Training_Session/
-
---
-
-If you're interested in learning how to use GitHub in this way please join our NCME 2022 Demonstration Session:
-
-Using GitHub for Open-Source Analytics, Reporting, and Dissemination of Research. Saturday April 23rd, 1:15 to 2:45 PT.
-
-
----
-class: inverse, center, middle
-
-# Background
-
----
-
-# COVID-19 Academic Impact
-
---
-
-### The pandemic and all the ensuing disruptions functioned/functions as an “academic headwind”, impeding (in general) the academic progress of students.
-
---
-
-### Academic Impact implies a counterfactual: Where would the student (or system) have been had the pandemic not occurred?
-
-
----
-
-# COVID-19 Academic Impact
-
-### Headwinds impede progress in two ways:
-
---
-
-1. They slow one’s rate of progress
-2. And by slowing one’s rate of progress they lead to less distance being travelled.
-
---
-
-### In education these two impediments manifest as:
-
---
-
-1. Decrease in student growth.
-2. Decrease in student attainment.
-
----
-
-class: center, bottom
-
-```{r echo=FALSE}
-magick::image_read_pdf("Figures/Academic_Impact_ELA_Grade_5.pdf")
+```{r eval=TRUE, tidy=FALSE}
+names(sgpData_LONG_COVID)
 ```
 
 ---
 
-class: center, bottom
+# Data
 
-```{r echo=FALSE}
-magick::image_read_pdf("Figures/Academic_Impact_Mathematics_Grade_5.pdf")
-```
+- The __sgpData_LONG_COVID__ data set is a LONG formatted data set with each case representing a unique student by content area by year assessment record.
+- Missing data due to the pandemic is a big issue due to lower participation rates in spring assessments. We will discuss missing data in great detail in separate sections of this training session
+
+
+
+---
+
+# Status Based Academic Impact
+
+- If you followed state reporting of spring 2021 assessment results, you know that the most prominent comparison being employed was status based comparisons to same grade/content area pre-pandemic cohorts of students.
+- For example, percent proficient for Grade 5 students in 2021 was compared to percent proficient of Grade 5 students in 2019.
+- Pre-/post-pandemic comparisons of same grade/content area imply a counter-factual:
+    + The 2019 results represent where students in that grade and content area would have scored had the pandemic not occurred.
+    + This presumes that the population of students in 2019 and 2021 are roughly equivalent.
+    + This presumes that there would be no improvement in the system between 2019 and 2021 (which would lead to a higher outcome for the 2021 students)
+- The comparison isn't "wrong", but it isn't the most nuanced comparison that can be used.
+- Status comparisons have the advantage of being able to be used for all grades and contents areas.
+- Growth comparisons (which we discuss later) are only available for grades/content areas where students have the requisite prior scores. 

@@ -162,6 +162,11 @@ class: inverse, center, middle
 
 ### Academic Impact implies a counterfactual: Where would the student (or system) have been had the pandemic not occurred?
 
+--
+
+- Analyses necessarily utilize the performance of a pre-pandemic, cohort (presumably comparable to the current cohort) to compare.
+- Note that without pre-pandemic data on students, it is impossible to entertain questions of what academic impact has occurred.  
+
 
 ---
 
@@ -171,8 +176,8 @@ class: inverse, center, middle
 
 --
 
-1. They slow one’s rate of progress
-2. And by slowing one’s rate of progress they lead to less distance being travelled.
+1. They slow one’s rate of progress (speedometer)
+2. And by slowing one’s rate of progress they lead to less distance being travelled (odometer).
 
 --
 
@@ -182,6 +187,19 @@ class: inverse, center, middle
 
 1. Decrease in student growth.
 2. Decrease in student attainment.
+
+---
+
+# COVID-19 Academic Impact
+
+### The impact to student attainment and student growth frame the two primary types of analyses that will be discussed in this training session
+
+1. Academic Impact as it relates to change (i.e. decrease) in student attainment
+2. Academic Impact as it relates to change (i.e., decrease) in student growth
+
+--
+
+### Status based analyses of academic impact will be discussed first. Growth based analyses of academic impact will be discussed second.
 
 ---
 

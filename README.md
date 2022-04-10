@@ -60,7 +60,7 @@ Investigating pandemic related academic impact on student learning. During the t
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
 Status based methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
-demographic subgroups.
+demographic subgroups. [Academic Impact Part 1](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_1.html)
 
 ### Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
 

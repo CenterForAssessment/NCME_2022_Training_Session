@@ -158,3 +158,11 @@ remotes::install_github("centerforassessment/SGPdata")
 ```{r eval=FALSE, tidy=FALSE}
 remotes::install_github("centerforassessment/cfaTools")
 ```
+
+---
+
+# Let's install the rest of the packages
+
+```{r eval=FALSE, tidy=FALSE}
+install.packages(c("data.table", "VIM", "mice", "miceadds", "ggplot2", "lme4", "merTools", "gghighlight"))
+```
