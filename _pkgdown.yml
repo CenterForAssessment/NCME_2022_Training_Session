@@ -28,15 +28,15 @@ navbar:
       menu:
       - text: "Presentation 1: April 10th, 1:00 to 2:00"
         href: articles/presentations/Overview_and_Background.html
-      - text: "Presentation 1: April 10th, 2:00 to 2:30"
+      - text: "Presentation 2: April 10th, 2:00 to 2:30"
         href: articles/presentations/Software_Preparations.html
-      - text: "Presentation 2: April 10th, 2:45 to 3:45"
+      - text: "Presentation 3: April 10th, 2:45 to 3:45"
         href: articles/presentations/Damian_Presentation_2.html
-      - text: "Presentation 3: April 10th, 3:45 to 4:45"
+      - text: "Presentation 4: April 10th, 3:45 to 4:45"
         href: articles/presentations/Nathan_Presentation_1.html
-      - text: "Presentation 4: April 11th, 1:00 to 3:00"
+      - text: "Presentation 5: April 11th, 1:00 to 3:00"
         href: articles/presentations/Adam_Presentation_1.html
-      - text: "Presentation 5: April 11th, 3:15 to 4:45"
+      - text: "Presentation 6: April 11th, 3:15 to 4:45"
         href: articles/presentations/Damian_Presentation_3.html
     - text: News
       menu:

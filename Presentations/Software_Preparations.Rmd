@@ -60,9 +60,9 @@ xaringanExtra::use_clipboard()
 
 --
 
-- If you don't already have R installed, please go ahead an install it from [CRAN](https://cran.r-project.org/)
+- If you don't already have R installed, please go ahead an install it from [CRAN](https://cran.r-project.org/) picking the version that goes with your operating systems.
 
---
+- If you have R installed but have an older version (pre 4.1), now is a good time to update the version that you're using.
 
 
 ---
@@ -81,7 +81,7 @@ xaringanExtra::use_clipboard()
 
 --
 
-- Packages can be distributed via the [Central R Archive Network (CRAN)](https://cran.r-project.org/web/packages/available_packages_by_name.html). As of today there are 19,014 packages on CRAN.
+- Packages can be distributed via the [Central R Archive Network](https://cran.r-project.org/web/packages/available_packages_by_name.html) (CRAN). As of today there are 19,014 packages on CRAN.
 
 --
 

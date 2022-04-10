@@ -26,7 +26,7 @@ class: center, middle, my-title, title-slide
 # Data Visualization and Analysis in the Era of COVID-19
 ]
 .subtitle[
-## Overview &amp; Background
+## Software Preparations
 ]
 .author[
 ### Damian Betebenner, Adam VanIwaarden &amp; Nathan Dadey
@@ -35,7 +35,7 @@ class: center, middle, my-title, title-slide
 ### Center for Assessment
 ]
 .date[
-### February 18th, 2022 (updated: April 10th, 2022)
+### March 3rd, 2022 (updated: April 10th, 2022)
 ]
 
 ---
@@ -94,158 +94,76 @@ top:1em;right:1em;
 
 
 
-# Overview
+# Required Software
 
 ---
 
-# Welcome to our NCME 2022
-# Training Session
+# R
 
 --
 
-## The Presenters
-
-- [Damian Betebenner](https://github.com/dbetebenner), Center for Assessment
+## We do all of our data analysis using the [R Software Environment](https://cran.r-project.org/)
 
 --
 
-- [Adam VanIwaarden](https://github.com/adamviAdam), Center for Assessment
+- We assume that you all have some familiarity with using R.
 
 --
 
-- [Nathan Dadey](https://github.com/ndadey), Center for Assessment
+- If you don't already have R installed, please go ahead an install it from [CRAN](https://cran.r-project.org/) picking the version that goes with your operating systems.
 
-
----
-
-# Data Visualization and Analysis in the Era of COVID-19
-
---
-
-## The Agenda: Day 1
-
-- Overview and Background: April 10th, 1:00 to 2:00 pm [@dbetebenner](https://github.com/dbetebenner)
-
---
-
-- Computer Setup: April 10, 2:00 to 2:30
-
---
-
-- Break: April 10, 2:30 to 2:45
-
---
-
-- Academic Impact (Part 1): April 10, 2:45 to 3:45 pm [@dbetebenner](https://github.com/dbetebenner)
-
---
-
-- Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
-
---
-
-- Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
-
----
-
-# Data Visualization and Analysis in the Era of COVID-19
-
---
-
-## The Agenda: Day 2
-
-- Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
-
---
-
-- Break: April 11, 3:00 to 3:15
-
---
-
-- Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@dbetebenner](https://github.com/dbetebenner)
-
---
-
-- Wrap-up/Q&amp;A: April 11, 4:45 to 5:00 pm
+- If you have R installed but have an older version (pre 4.1), now is a good time to update the version that you're using.
 
 
 ---
 
-# Data Visualization and Analysis in the Era of COVID-19
+# R Packages
+
+## One of R's greatest strengths is its extensibility.
 
 --
 
-## Resources
---
-
-All presentations and materials associated with the training session are located in a GitHub repo:
-
-https://github.com/centerforassessment/NCME_2022_Training_Session
+- One can create their own R packages that contain custom code to do just about anything.
 
 --
 
-Associated with the repo is a GitHub hosted website and contains all the presentations and associated documentation
-
-https://centerforassessment.github.io/NCME_2022_Training_Session/
+- Over the last 15 years, we have done growth analyses for more than two dozen states using R and the [SGP Package](https://www.sgp.io) for calculating student growth percentiles and percentile growth trajectories.
 
 --
 
-If you're interested in learning how to use GitHub in this way please join our NCME 2022 Demonstration Session:
-
-Using GitHub for Open-Source Analytics, Reporting, and Dissemination of Research. Saturday April 23rd, 1:15 to 2:45 PT.
-
-
----
-class: inverse, center, middle
-
-# Background
-
----
-
-# COVID-19 Academic Impact
+- Packages can be distributed via the [Central R Archive Network](https://cran.r-project.org/web/packages/available_packages_by_name.html) (CRAN). As of today there are 19,014 packages on CRAN.
 
 --
 
-### The pandemic and all the ensuing disruptions functioned/functions as an “academic headwind”, impeding (in general) the academic progress of students.
+- Many amazing R packages are currently being built and distributed using [GitHub](www.github.com). Developing and allowing others to install packages from GitHub is by far the best way to do serious data analysis with R.
 
 --
 
-### Academic Impact implies a counterfactual: Where would the student (or system) have been had the pandemic not occurred?
+- This presentation was created using the R package [Xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html)
 
+--
+
+- Have any of you created and R package?
 
 ---
 
-# COVID-19 Academic Impact
+# Required R packages for this training session
 
-### Headwinds impede progress in two ways:
-
---
-
-1. They slow one’s rate of progress
-2. And by slowing one’s rate of progress they lead to less distance being travelled.
+## We will need a few packages for this training session.
 
 --
 
-### In education these two impediments manifest as:
+- [SGP Package CRAN](https://cran.rstudio.com/web/packages/SGP/index.html)
 
---
+- [SGP Package GitHub](https://github.com/CenterForAssessment/SGP)
 
-1. Decrease in student growth.
-2. Decrease in student attainment.
+- [SGPdata Package CRAN](https://cran.rstudio.com/web/packages/SGPdata/index.html)
 
----
-
-class: center, bottom
-
-&lt;img src="Overview_and_Background_files/figure-html/unnamed-chunk-1-1.png" width="6800" /&gt;
+- [SGPdata Package GitHub](https://github.com/CenterForAssessment/SGPdata)
 
 ---
 
-class: center, bottom
-
-&lt;img src="Overview_and_Background_files/figure-html/unnamed-chunk-2-1.png" width="6800" /&gt;
-
----
+# Let's install the required packages
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
