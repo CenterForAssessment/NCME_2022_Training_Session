@@ -110,9 +110,11 @@ top:1em;right:1em;
 
 --
 
-- If you don't already have R installed, please go ahead an install it from [CRAN](https://cran.r-project.org/) picking the version that goes with your operating systems.
+- If you don't already have R installed, please go ahead and install it from [CRAN](https://cran.r-project.org/) picking the version that goes with your operating systems.
 
 - If you have R installed but have an older version (pre 4.1), now is a good time to update the version that you're using.
+
+- Many of you familiar with R probably use the [RStudio development environment](https://www.rstudio.com/) instead of the default user interface provided with R.
 
 
 ---
@@ -123,7 +125,7 @@ top:1em;right:1em;
 
 --
 
-- One can create their own R packages that contain custom code to do just about anything.
+- One can create their own R packages that contain custom data and code to do just about anything.
 
 --
 
@@ -143,7 +145,7 @@ top:1em;right:1em;
 
 --
 
-- Have any of you created and R package?
+- Have any of you created an R package?
 
 ---
 
@@ -153,17 +155,64 @@ top:1em;right:1em;
 
 --
 
-- [SGP Package CRAN](https://cran.rstudio.com/web/packages/SGP/index.html)
+- [SGP Package on CRAN](https://cran.rstudio.com/web/packages/SGP/index.html) or the more current [SGP Package on GitHub](https://github.com/CenterForAssessment/SGP)
 
-- [SGP Package GitHub](https://github.com/CenterForAssessment/SGP)
+- [SGPdata Package on CRAN](https://cran.rstudio.com/web/packages/SGPdata/index.html) or the more updated [SGPdata Package on GitHub](https://github.com/CenterForAssessment/SGPdata)
 
-- [SGPdata Package CRAN](https://cran.rstudio.com/web/packages/SGPdata/index.html)
-
-- [SGPdata Package GitHub](https://github.com/CenterForAssessment/SGPdata)
+- [cfaTools package on GitHub](https://centerforassessment.github.io/cfaTools/) (There isn't a CRAN version of this package yet.)
 
 ---
 
-# Let's install the required packages
+# Let's install the SGP package
+
+### To install the SGP package from CRAN and GitHub use the following commands (you can copy and past them into your R development environement of choice)
+
+### RStudio has several pull down menu options in its IDE that (essentially) runs the following commands for you.
+
+### CRAN
+
+
+```r
+install.packages("SGP")
+```
+
+### GitHub
+
+
+```r
+remotes::install_github("centerforassessment/SGP")
+```
+
+---
+
+# Let's install the SGPdata package
+
+### CRAN
+
+
+```r
+install.packages("SGPdata")
+```
+
+### GitHub
+
+
+```r
+remotes::install_github("centerforassessment/SGPdata")
+```
+
+---
+
+# Let's install the cfaTools package
+
+### Not available on CRAN
+
+### GitHub
+
+
+```r
+remotes::install_github("centerforassessment/cfaTools")
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
