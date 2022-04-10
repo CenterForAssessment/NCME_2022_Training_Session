@@ -33,11 +33,15 @@ navbar:
       - text: "Presentation 3: April 10th, 2:45 to 3:45"
         href: articles/presentations/Academic_Impact_Part_1.html
       - text: "Presentation 4: April 10th, 3:45 to 4:45"
-        href: articles/presentations/Nathan_Presentation_1.html
       - text: "Presentation 5: April 11th, 1:00 to 3:00"
-        href: articles/presentations/Adam_Presentation_1.html
       - text: "Presentation 6: April 11th, 3:15 to 4:45"
         href: articles/presentations/Damian_Presentation_3.html
+    - text: Documents
+      menu:
+      - text: "Considering Participation"
+        href: articles/vignettes/Considering_Participation.html
+      - text: "Multiple Imputation with Simulated Missing Data"
+        href: articles/vignettes/Missing_Data_Multiple_Imputation.html
     - text: News
       menu:
       - text: "NCME 2022 Training Session"
