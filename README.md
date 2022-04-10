@@ -38,15 +38,6 @@ Student receiving instruction from home, for example, took interim assessments f
 pandemic, students were administered the state summative assessment at home. Non-standardized testing conditions bring into question
 comparability and the validity of the overall scores.
 
-Participants in the proposed training session will be introduced to these three, real world data scenarios and instructed how they can go
-about modeling the results to derive information useful as part of validation efforts and secondary data investigations that states are
-keen to conduct.
-
-Participants, utilizing the R software environment and a custom R package designed to address these data analyses, will learn how to
-set up data and apply R functions to answer numerous questions that arise due to the pandemic. Participants will come away from the
-training session well prepared to analyze their own data sets with regard to the issues discussed.
-
-
 ## Schedule
 
 ### Overview & Background: April 10, 1:00 to 2:00 pm [@dbetebenner](https://github.com/dbetebenner)

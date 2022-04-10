@@ -1,16 +1,17 @@
 ---
-title: "Overview & Background"
+title: "Software Preparations"
 date: "`r toOrdinal::toOrdinalDate(Sys.Date())`"
 ---
 
-## April 10, 1:00 to 2:00 pm
+## April 10, 2:00 to 2:30 pm
 
-The pandemic caused numerous disruptions and alterations to education in the United States. In this presentation we introduce ourselves and provide attendees with an overview 
-of the training session followed by an introduction to analytic approaches that will be investigated during the training session.    
+Before getting started on analyzing data, we need to install the software we will use to analyze our data. We use the [R Software Environment](https://cran.r-project.org/) i
+together with its robust eco-system of packages for all of our data prepreparation analysis, and reporting. 
+
 
 ```{r, echo = FALSE}
     xaringanExtra::embed_xaringan(
-    url = '../../presentations/Overview_and_Background.html',
+    url = '../../presentations/Software_Preparations.html',
     ratio = "4:3",
     max_width = 800
     )
