@@ -94,6 +94,7 @@ top:1em;right:1em;
 
 
 
+
 # Data
 
 ---
@@ -173,7 +174,25 @@ names(sgpData_LONG_COVID)
     + This presumes that there would be no improvement in the system between 2019 and 2021 (which would lead to a higher outcome for the 2021 students)
 - The comparison isn't "wrong", but it isn't the most nuanced comparison that can be used.
 - Status comparisons have the advantage of being able to be used for all grades and contents areas.
-- Growth comparisons (which we discuss later) are only available for grades/content areas where students have the requisite prior scores. 
+- Growth comparisons (which we discuss later) are only available for grades/content areas where students have the requisite prior scores.
+
+
+---
+
+# Status based Academic Impact
+
+- We will begin by looking at some basic descriptive summaries to familiarize ourselves with the __sgpData_LONG_COVID__ data set.
+
+
+```r
+tmp_2019_m5 &lt;- subset(sgpData_LONG_COVID, YEAR=="2019" &amp; CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="5")
+tmp_2021_m5 &lt;- subset(sgpData_LONG_COVID, YEAR=="2021" &amp; CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="5")
+mean(tmp_2019_m5$SCALE_SCORE, na.rm=TRUE) - mean(tmp_2021_m5$SCALE_SCORE, na.rm=TRUE)
+```
+
+```
+## [1] 6.530328
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
