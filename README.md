@@ -1,7 +1,7 @@
 
 # NCME 2022 Training Session
 
-# Data Validation and Analysis in the Era of COVID-19
+# Data Visualization and Analysis in the Era of COVID-19
 
 In this two, half-day NCME training session, participants will be introduced to suite of R based analyses that can be used to
 address numerous education assessment data analysis and validation issues that arose due the the COVID-19 pandemic. One of the
@@ -49,21 +49,21 @@ training session well prepared to analyze their own data sets with regard to the
 
 ## Schedule
 
-### Background: April 10, 1:00 to 2:00 pm [@Dbetebenner](https://github.com/dbetebenner)
+### Overview & Background: April 10, 1:00 to 2:00 pm [@dbetebenner](https://github.com/dbetebenner)
 
-During the first two hours participants will be given an overview of the assessment data landscape that exists due to the pandemic. The pandemic
-caused numerous disruptions and alterations to student testing and we want to familiarize participants with some of the major ones (e.g.,
-cancelled testing). During these two hours participants will install the required R packages necessary to perform analyses conducted throughout
-the rest of the session.
+The COVID-19 pandemic caused numerous disruptions and alterations to education in the United States. In the first hour we provide attendees with an
+overview of the training session followed by an introduction to the analytic approaches that will be investigated during the training session.
+The COVID-19 pandemic caused numerous disruptions to student education and alterations to student testing. We will familiarize attendees with
+some of the major ones (e.g., cancelled testing). [Overview & Background Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Overview_and_Background.html)
 
-### Computer Setup: April 10, 2:00 to 2:30
+### Software Preparations: April 10, 2:00 to 2:30
 
-Training session participants will need to have R installed with several packages in order to follow along with analyses being conducted as part of
-the training session.
+Training session participants will need to have R installed with several R packages in order to follow along with analyses being conducted as part of
+the training session. [Software Preparations Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Software_Preparations.html)
 
 ### Break: April 10, 2:30 to 2:45
 
-### Academic Impact (Part 1): April 10, 2:45 to 3:45 pm [@Dbetebenner](https://github.com/dbetebenner)
+### Academic Impact (Part 1): April 10, 2:45 to 3:45 pm [@dbetebenner](https://github.com/dbetebenner)
 
 Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
@@ -71,11 +71,11 @@ Status based methods of looking at impact based upon propensity score matching A
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
 demographic subgroups.
 
-### Missing Data (Part 1): April 11, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
+### Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
 
 Descriptive examination of missing data patterns.
 
-### Summary and next steps: April 11, 4:45 to 5:00 pm [@Dbetebenner](https://github.com/dbetebenner)
+### Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
 
 
 ### Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
@@ -88,8 +88,6 @@ interfere with inferences one makes from assessment data.
 
 ### Break: April 11, 3:00 to 3:15
 
-### Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@Dbetebenner](https://github.com/dbetebenner)
-
-
+### Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@dbetebenner](https://github.com/dbetebenner)
 
 ### Wrap-up/Q&A: April 11, 4:45 to 5:00 pm

@@ -1,9 +1,9 @@
 ---
-title: "Presentation Ninja"
-subtitle: "NCME 2022 Training Session"
-author: "Damian Betebenner"
+title: "Data Visualization and Analysis in the Era of COVID-19"
+subtitle: "Overview & Background"
+author: "Damian Betebenner, Adam VanIwaarden & Nathan Dadey"
 institute: "Center for Assessment"
-date: "2022/2/18 (updated: `r Sys.Date()`)"
+date: "February 18th, 2022 (updated: `r toOrdinal::toOrdinalDate(Sys.Date())`)"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,10 +11,10 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      titleSlideClass: ["center", "center", "my-title"]
----
+      titleSlideClass: ["center", "middle", "my-title"]
 
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
+---
+class: inverse, center, middle
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -44,71 +44,156 @@ xaringanExtra::use_tile_view()
 xaringanExtra::use_clipboard()
 ```
 
-
-???
-
-Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+# Overview
 
 ---
-class: center, middle
 
-# xaringan
+# Welcome to our NCME 2022
+# Training Session
 
-### /ʃaː.'riŋ.ɡan/
+--
+
+## The Presenters
+
+- [Damian Betebenner](https://github.com/dbetebenner), Center for Assessment
+
+--
+
+- [Adam VanIwaarden](https://github.com/adamviAdam), Center for Assessment
+
+--
+
+- [Nathan Dadey](https://github.com/ndadey), Center for Assessment
+
+
+---
+
+# Data Visualization and Analysis in the Era of COVID-19
+
+--
+
+## The Agenda: Day 1
+
+- Overview and Background: April 10th, 1:00 to 2:00 pm [@dbetebenner](https://github.com/dbetebenner)
+
+--
+
+- Computer Setup: April 10, 2:00 to 2:30
+
+--
+
+- Break: April 10, 2:30 to 2:45
+
+--
+
+- Academic Impact (Part 1): April 10, 2:45 to 3:45 pm [@dbetebenner](https://github.com/dbetebenner)
+
+--
+
+- Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
+
+--
+
+- Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
+
+---
+
+# Data Visualization and Analysis in the Era of COVID-19
+
+--
+
+## The Agenda: Day 2
+
+- Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
+
+--
+
+- Break: April 11, 3:00 to 3:15
+
+--
+
+- Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@dbetebenner](https://github.com/dbetebenner)
+
+--
+
+- Wrap-up/Q&A: April 11, 4:45 to 5:00 pm
+
+
+---
+
+# Data Visualization and Analysis in the Era of COVID-19
+
+--
+
+## Resources
+--
+
+All presentations and materials associated with the training session are located in a GitHub repo:
+
+https://github.com/centerforassessment/NCME_2022_Training_Session
+
+--
+
+Associated with the repo is a GitHub hosted website and contains all the presentations and associated documentation
+
+https://centerforassessment.github.io/NCME_2022_Training_Session/
+
+--
+
+If you're interested in learning how to use GitHub in this way please join our NCME 2022 Demonstration Session:
+
+Using GitHub for Open-Source Analytics, Reporting, and Dissemination of Research. Saturday April 23rd, 1:15 to 2:45 PT.
+
 
 ---
 class: inverse, center, middle
 
-# Get Started
+# Background
 
 ---
 
-# Hello World
+# COVID-19 Academic Impact
 
-Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
+--
 
-```{r eval=FALSE, tidy=FALSE}
-remotes::install_github("yihui/xaringan")
+### The pandemic and all the ensuing disruptions functioned/functions as an “academic headwind”, impeding (in general) the academic progress of students.
+
+--
+
+### Academic Impact implies a counterfactual: Where would the student (or system) have been had the pandemic not occurred?
+
+
+---
+
+# COVID-19 Academic Impact
+
+### Headwinds impede progress in two ways:
+
+--
+
+1. They slow one’s rate of progress
+2. And by slowing one’s rate of progress they lead to less distance being travelled.
+
+--
+
+### In education these two impediments manifest as:
+
+--
+
+1. Decrease in student growth.
+2. Decrease in student attainment.
+
+---
+
+```{r echo=FALSE}
+magick::image_read_pdf("Figures/Academic_Impact_ELA_Grade_5.pdf")
 ```
 
---
-
-You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
-
-- Create a new R Markdown document from the menu `File -> New File -> R Markdown -> From Template -> Ninja Presentation`;<sup>1</sup>
-
---
-
-- Click the `Knit` button to compile it;
-
---
-
-- or use the [RStudio Addin](https://rstudio.github.io/rstudioaddins/)<sup>2</sup> "Infinite Moon Reader" to live preview the slides (every time you update and save the Rmd document, the slides will be automatically reloaded in RStudio Viewer.
-
-.footnote[
-[1] 中文用户请看[这份教程](https://slides.yihui.org/xaringan/zh-CN.html)
-
-[2] See [#2](https://github.com/yihui/xaringan/issues/2) if you do not see the template or addin in RStudio.
-]
-
----
-background-image: url(`r xaringan:::karl`)
-background-position: 50% 50%
-class: center, bottom, inverse
-
-# You only live once!
-
 ---
 
-# Hello Ninja
-
-As a presentation ninja, you certainly should not be satisfied by the "Hello World" example. You need to understand more about two things:
-
-1. The [remark.js](https://remarkjs.com) library;
-
-1. The **xaringan** package;
-
-Basically **xaringan** injected the chakra of R Markdown (minus Pandoc) into **remark.js**. The slides are rendered by remark.js in the web browser, and the Markdown source needed by remark.js is generated from R Markdown (**knitr**).
+```{r echo=FALSE}
+magick::image_read_pdf("Figures/Academic_Impact_Mathematics_Grade_5.pdf")
+```
 
 ---
 

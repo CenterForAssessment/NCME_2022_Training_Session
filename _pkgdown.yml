@@ -1,6 +1,6 @@
 DESCRIPTION:
   Package: NCME 2022 Training Session
-  Title: Data Validation and Analysis in the Era of COVID-19
+  Title: Data Visualization and Analysis in the Era of COVID-19
   Authors@R: c(person(given=c("Damian", "W."), family="Betebenner", email="dbetebenner@nciea.org", role=c("aut", "cre")),
            person(given=c("Adam", "R."), family="Van Iwaarden", email="avaniwaarden@gmail.com", role="aut"),
            person(given=c("Nathan"), family="Dadey", email="ndadey@nciea.org", role="aut"),
@@ -27,7 +27,9 @@ navbar:
     - text: Presentations
       menu:
       - text: "Presentation 1: April 10th, 1:00 to 2:00"
-        href: articles/presentations/Damian_Presentation_1.html
+        href: articles/presentations/Overview_and_Background.html
+      - text: "Presentation 1: April 10th, 2:00 to 2:30"
+        href: articles/presentations/Software_Preparations.html
       - text: "Presentation 2: April 10th, 2:45 to 3:45"
         href: articles/presentations/Damian_Presentation_2.html
       - text: "Presentation 3: April 10th, 3:45 to 4:45"
@@ -45,4 +47,4 @@ navbar:
       - icon: fab fa-github
         href: https://github.com/centerforassessment/NCME_2022_Training_Session
       - icon: fab fa-twitter
-        href: https://twitter.com/intent/tweet?url=https%3A%2F%2Fcenterforassessment.github.io%2FNCME_2022_Training_Session%2F&via=NCIEA1&text=NCME%202022:%20Data%20Validation%20and%20Analysis%20in%20the%20Era%20of%20COVID-19&hashtags=rstats%2CNCME22
+        href: https://twitter.com/intent/tweet?url=https%3A%2F%2Fcenterforassessment.github.io%2FNCME_2022_Training_Session%2F&via=NCIEA1&text=NCME%202022:%20Data%20Visualization%20and%20Analysis%20in%20the%20Era%20of%20COVID-19&hashtags=NCME%2C%2CNCME22%2CNCME2022%2Crstats

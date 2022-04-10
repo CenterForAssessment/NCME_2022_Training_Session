@@ -1,0 +1,116 @@
+---
+title: "Data Visualization and Analysis in the Era of COVID-19"
+subtitle: "Software Preparations"
+author: "Damian Betebenner, Adam VanIwaarden & Nathan Dadey"
+institute: "Center for Assessment"
+date: "March 3rd, 2022 (updated: `r toOrdinal::toOrdinalDate(Sys.Date())`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: ["center", "middle", "my-title"]
+
+---
+class: inverse, center, middle
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+```
+
+```{r style-share-again, echo=FALSE}
+xaringanExtra::style_share_again(
+  share_buttons = c("twitter")
+)
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(
+  image_url = "https://centerforassessment.github.io/assets/favicon.png"
+)
+```
+
+```{r xaringan-tile-view, echo=FALSE}
+xaringanExtra::use_tile_view()
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+# Required Software
+
+---
+
+# R
+
+--
+
+## We do all of our data analysis using the [R Software Environment](https://cran.r-project.org/)
+
+--
+
+- We assume that you all have some familiarity with using R.
+
+--
+
+- If you don't already have R installed, please go ahead an install it from [CRAN](https://cran.r-project.org/)
+
+--
+
+
+---
+
+# R Packages
+
+## One of R's greatest strengths is its extensibility.
+
+--
+
+- One can create their own R packages that contain custom code to do just about anything.
+
+--
+
+- Over the last 15 years, we have done growth analyses for more than two dozen states using R and the [SGP Package](https://www.sgp.io) for calculating student growth percentiles and percentile growth trajectories.
+
+--
+
+- Packages can be distributed via the [Central R Archive Network (CRAN)](https://cran.r-project.org/web/packages/available_packages_by_name.html). As of today there are 19,014 packages on CRAN.
+
+--
+
+- Many amazing R packages are currently being built and distributed using [GitHub](www.github.com). Developing and allowing others to install packages from GitHub is by far the best way to do serious data analysis with R.
+
+--
+
+- This presentation was created using the R package [Xaringan](https://bookdown.org/yihui/rmarkdown/xaringan.html)
+
+--
+
+- Have any of you created and R package?
+
+---
+
+# Required R packages for this training session
+
+## We will need a few packages for this training session.
+
+--
+
+- [SGP Package CRAN](https://cran.rstudio.com/web/packages/SGP/index.html)
+
+- [SGP Package GitHub](https://github.com/CenterForAssessment/SGP)
+
+- [SGPdata Package CRAN](https://cran.rstudio.com/web/packages/SGPdata/index.html)
+
+- [SGPdata Package GitHub](https://github.com/CenterForAssessment/SGPdata)
+
+---
+
+# Let's install the required packages
