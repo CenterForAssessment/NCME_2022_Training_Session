@@ -1,0 +1,20 @@
+---
+title: "Academic Impact (Part 1)"
+date: "`r toOrdinal::toOrdinalDate(Sys.Date())`"
+---
+
+## April 10, 2:45 to 3:45 pm
+
+Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
+to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
+Status based methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
+Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
+demographic subgroups.
+
+```{r, echo = FALSE}
+    xaringanExtra::embed_xaringan(
+    url = '../../presentations/Academic_Impact_Part_1.html',
+    ratio = "4:3",
+    max_width = 800
+    )
+```

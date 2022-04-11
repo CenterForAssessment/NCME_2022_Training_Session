@@ -45,12 +45,16 @@ comparability and the validity of the overall scores.
 The COVID-19 pandemic caused numerous disruptions and alterations to education in the United States. In the first hour we provide attendees with an
 overview of the training session followed by an introduction to the analytic approaches that will be investigated during the training session.
 The COVID-19 pandemic caused numerous disruptions to student education and alterations to student testing. We will familiarize attendees with
-some of the major ones (e.g., cancelled testing). [Overview & Background Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Overview_and_Background.html)
+some of the major ones (e.g., cancelled testing).
+
+[Overview & Background Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Overview_and_Background.html)
 
 ### Software Preparations: April 10, 2:00 to 2:30
 
 Training session participants will need to have R installed with several R packages in order to follow along with analyses being conducted as part of
-the training session. [Software Preparations Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Software_Preparations.html)
+the training session.
+
+[Software Preparations Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Software_Preparations.html)
 
 ### Break: April 10, 2:30 to 2:45
 
@@ -58,9 +62,10 @@ the training session. [Software Preparations Presentation](https://centerforasse
 
 Investigating pandemic related academic impact on student learning. During the third and fourth hours, participants will be introduced to several ways
 to investigate the academic impact students encountered due to the pandemic. Including: Skip year baseline referenced growth analyses.
-Status based methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
 Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
-demographic subgroups. [Academic Impact Part 1](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_1.html)
+demographic subgroups.
+
+[Academic Impact Part 1 Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_1.html)
 
 ### Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
 
@@ -71,14 +76,24 @@ Descriptive examination of missing data patterns.
 
 ### Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
 
-Multiple Imputation: A substantial issue associated with assessment data from 2021 was whether aggregate results
+Multiple Imputation with Missing Data: A substantial issue associated with assessment data from 2021 was whether aggregate results
 (e.g., school level results) could be compared to previous year due to missing data (non-tested students) and changing enrollment. As part of
 our work with states we developed numerous multiple imputation procedures to help understand missing data as well as propensity score matching
 procedures to accommodate changing enrollment. Students will learn about these procedures and use example data to see how missing data can
 interfere with inferences one makes from assessment data.
 
+[Multiple Imputation with Missing Data Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/MI_w_Missing_Data.html)
+
 ### Break: April 11, 3:00 to 3:15
 
 ### Academic Impact (Part 2): April 11, 3:15 to 4:45 pm [@dbetebenner](https://github.com/dbetebenner)
+
+Investigating pandemic related academic impact on student learning. During the third and fourth hours of day 2, participants will conduct
+status and growth based academic impact analyses.
+ methods of looking at impact based upon propensity score matching Andrew Ho’s Fair Trend method as used to look at academic impact.
+Using a toy data set that mimic 2020 test cancellations, students will learn to calculate academic impact and use those results to investigate impact by
+demographic subgroups.
+
+[Academic Impact Part 2 Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_2.html)
 
 ### Wrap-up/Q&A: April 11, 4:45 to 5:00 pm

@@ -1,0 +1,234 @@
+---
+title: "Data Visualization and Analysis in the Era of COVID-19"
+subtitle: "Academic Impact Part 2"
+author: "Damian Betebenner, Adam VanIwaarden & Nathan Dadey"
+institute: "Center for Assessment"
+date: "March 22nd, 2022 (updated: `r toOrdinal::toOrdinalDate(Sys.Date())`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: ["center", "middle", "my-title"]
+
+---
+class: inverse, center, middle
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+```
+
+```{r style-share-again, echo=FALSE}
+xaringanExtra::style_share_again(
+  share_buttons = c("twitter")
+)
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(
+  image_url = "https://centerforassessment.github.io/assets/favicon.png"
+)
+```
+
+```{r xaringan-tile-view, echo=FALSE}
+xaringanExtra::use_tile_view()
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+xaringanExtra::use_clipboard()
+```
+
+
+# Academic Impact
+
+---
+
+## Learning Deceleration/Acceleration
+
+--
+
+- Summarization of assessment data (either for diagnostic or accountability purposes) of emphasizes two types of data results: Status (i.e. student attainment) and Growth (i.e., student academic progress).
+
+- With the pandemic, emaphasis has changed to look at _academic impact_.
+
+- In yesterday's introduction we discussed status impact (odometer) and growth impact (speedometer).
+
+- We emphasize that Impact is synonymous with _decleration_ and Recovery is synonymous with _acceleration_.
+
+- Deceleration, by definition, is the change in velocity (i.e. growth).
+
+- Improvement (increasing student attainment/status in a system over time) is indicative of acceleration (unless the population is changing leading to the increased attainment/status)
+
+- One of the most informative and least appreciated papers that discusses this is [Focusing State Educational Accountability Systems: Four Methods of Judging School Quality and Progress](https://www.nciea.org/sites/default/files/publications/Dale020402.pdf)
+
+
+---
+
+```{r echo=FALSE}
+magick::image_read_pdf("Figures/Carlson_Four_Quadrant_Figure.pdf")
+```
+
+---
+
+# Data to Investigate Academic Impact
+
+- The data set we will utilize is called __sgpData_LONG_COVID__ and is a part of the __SGPdata__ package you've installed.
+
+- Load the package into your R environment:
+
+```{r eval=TRUE, tidy=FALSE}
+require("SGPdata")
+```
+
+- Explore the dataset:
+
+```{r eval=FALSE, tidy=FALSE}
+summary(sgpData_LONG_COVID)
+```
+
+---
+
+# Status Based Academic Impact
+
+- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.  
+
+- We begin by analyzing ECDFs for Grade 8 mathematics in 2019 versus Grade 8 mathematics in 2021.
+
+```{r tidy=FALSE, cache=TRUE}
+require(data.table)
+math_g8_2019 <- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" & GRADE=="8" & YEAR=="2019"]
+math_g8_2021 <- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" & GRADE=="8" & YEAR=="2021"]
+math_g8_2019_quantiles <- quantile(math_g8_2019$SCALE_SCORE, probs=0:100/100)
+math_g8_2021_quantiles <- quantile(math_g8_2021$SCALE_SCORE, probs=0:100/100)
+```
+
+---
+
+## Academic Impact: Status 
+
+```{r echo=FALSE}
+magick::image_read_pdf("Figures/Academic_Impact_Status_GRID.pdf")
+```
+
+---
+
+## Create Plot of Status Based Academic Impact 
+
+```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+```
+
+---
+
+## Create Plot of Status Based Academic Impact 
+
+```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+abline(h=c(472, 500, 542), lty=2, col="blue")
+```
+
+---
+
+## Identifying percent at/above proficient 
+
+- Normally, you will have the percentage of students in a grade/content area at above proficient. 
+- However, they can be derived from the data we are using. 
+- From above, we know that 577 is the proficient cutscore for grade 8, mathematics
+- We can use ECDFs to calculate these
+
+```{r eval=TRUE, cache=TRUE}
+math_g8_2019_ecdf <- ecdf(math_g8_2019$SCALE_SCORE)
+math_g8_2021_ecdf <- ecdf(math_g8_2021$SCALE_SCORE)
+100 - 100*math_g8_2019_ecdf(500)
+100 - 100*math_g8_2021_ecdf(500)
+```
+
+---
+
+```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+abline(h=c(472, 500, 542), lty=2, col="blue")
+abline(v=c(55.26, 43.58), col="black", lty=3)
+```
+
+---
+
+## To facilitate plotting convert LONG data to WIDE data
+
+```{r eval=FALSE}
+require("SGP")
+require("SGPdata")
+SGP::outputSGP(sgpData_LONG_COVID, output.type='WIDE')
+```
+
+---
+
+## Growth Based Academic Impact
+
+```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
+load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
+g8_2019_2021_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" & GRADE.2021.MATHEMATICS=="8"]
+g8_2017_2019_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" & GRADE.2019.MATHEMATICS=="8"]
+attach(g8_2019_2021_data)
+plot(SCALE_SCORE.2019.MATHEMATICS, SCALE_SCORE.2021.MATHEMATICS, pch=".", cex=0.5, xlab="Scaled Score 2019: Grade 6", ylab="Scaled Score 2021: Grade 8")
+detach(g8_2019_2021_data)
+```
+
+---
+
+## Calculate conditional status splines
+
+```{r eval=FALSE}
+require(splines)
+load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
+g8_2019_2021_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" & GRADE.2021.MATHEMATICS=="8"]
+g8_2017_2019_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" & GRADE.2019.MATHEMATICS=="8"]
+attach(g8_2019_2021_data)
+spline_2019_to_2021 <- lm(SCALE_SCORE.2021.MATHEMATICS ~ bs(SCALE_SCORE.2019.MATHEMATICS))
+detach(g8_2019_2021_data)
+
+attach(g8_2017_2019_data)
+spline_2017_to_2019 <- lm(SCALE_SCORE.2019.MATHEMATICS ~ bs(SCALE_SCORE.2017.MATHEMATICS))
+detach(g8_2017_2019_data)
+```
+
+---
+
+
+```{r eval=FALSE}
+attach(g8_2019_2021_data)
+plot(SCALE_SCORE.2019.MATHEMATICS, SCALE_SCORE.2021.MATHEMATICS, pch=".", cex=0.5, xlab="Scaled Score 2019: Grade 6", ylab="Scaled Score 2021: Grade 8")
+x_coors <- min(SCALE_SCORE.2019.MATHEMATICS, na.rm=TRUE):max(SCALE_SCORE.2019.MATHEMATICS)
+points(x_coors, predict(spline_2017_to_2019, data.frame(SCALE_SCORE.2017.MATHEMATICS=x_coors)), col="black", type="l")
+points(x_coors, predict(spline_2019_to_2021, data.frame(SCALE_SCORE.2019.MATHEMATICS=x_coors)), col="red", type="l")
+detach(g8_2019_2021_data)
+```
+
+---
+
+```{r echo=FALSE}
+magick::image_read_pdf("Figures/Grade_6_2019_to_Grade_8_2021_Math.pdf")
+```
+---
+
