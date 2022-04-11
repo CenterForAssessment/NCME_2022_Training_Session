@@ -21,27 +21,27 @@ class: inverse, center, middle
 	options(htmltools.dir.version = FALSE, eval = FALSE)
 ```
 
-```{r share-again, echo=FALSE}
+```{r share-again, echo=FALSE, eval = TRUE}
 xaringanExtra::use_share_again()
 ```
 
-```{r style-share-again, echo=FALSE}
+```{r style-share-again, echo=FALSE, eval = TRUE}
 xaringanExtra::style_share_again(
   share_buttons = c("twitter")
 )
 ```
 
-```{r xaringan-logo, echo=FALSE}
+```{r xaringan-logo, echo=FALSE, eval = TRUE}
 xaringanExtra::use_logo(
   image_url = "https://centerforassessment.github.io/assets/favicon.png"
 )
 ```
 
-```{r xaringan-tile-view, echo=FALSE}
+```{r xaringan-tile-view, echo=FALSE, eval = TRUE}
 xaringanExtra::use_tile_view()
 ```
 
-```{r xaringanExtra-clipboard, echo=FALSE}
+```{r xaringanExtra-clipboard, echo=FALSE, eval = TRUE}
 xaringanExtra::use_clipboard()
 ```
 
