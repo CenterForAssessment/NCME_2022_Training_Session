@@ -39,6 +39,7 @@ res_long <- vector(mode = "list", length = M)
 for (i in 1:M) {
   meas.list.i <- list(Z_SCORE = grep("^Z_SCORE", names(impute_subset)))
   res_long[[i]] <- melt(as.data.table(res[[i]]), id = c("ID", "SCHOOL_NUMBER", "FRL"), variable.name = "GRADE", measure = meas.list.i)
+  if ("value" %in% names(res_long[[i]])) setnames(res_long[[i]], "value", "Z_SCORE")
   res_long[[i]][, VALID_CASE := "VALID_CASE"]
   res_long[[i]][, CONTENT_AREA := tail(content.areas, 1)]
   res_long[[i]][, COVID_IMPACT := as.numeric(factor(GRADE, labels = c(0, 0, 1)))-1]
