@@ -402,7 +402,7 @@ to three steps in which information from the observed data is used to generate p
 The figure below (Figure 5.1 in Van Buuren, 2018) provides a nice visual synopsis of the MI workflow.
 
 ``` {r mi_wf_vB, out.width='75%', fig.align='center', echo=FALSE, eval = TRUE}
-knitr::include_graphics("Figures/ch01-miflow-1.png", error = FALSE)
+magick::image_read("Figures/ch01-miflow-1.png")
 ```
 ---
 

@@ -53,8 +53,9 @@ mss.cat <-
     labs(color="F Significance") + coord_flip()
 
 if (!run.vignette) {
-	ggsave(filename = file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), 
-  	     plot=mss.cat, width=7, height = 5)
+	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=7, height = 5)
+	mss.cat
+	dev.off()
 }
 ##    Estimates by Percent Missing (and School Size)
 mss.pctm <-
@@ -83,8 +84,9 @@ mss.pctm <-
    labs(color="F Significance", size="School Size")
 
 if (!run.vignette) {
-	ggsave(filename = file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")),
-  	     plot=mss.pctm, width=9, height = 5)
+	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=9, height = 5)
+	mss.pctm
+	dev.off()
 }
 
 ###   Growth
@@ -117,7 +119,7 @@ msgp.cat <-
 		geom_line(sch.cat.dat, mapping = aes(x=SCHOOL_RANK, y=Mean_SGPB_Imputed, fill=NULL), col="green", size=0.5, show.legend=FALSE) +
 		geom_point(sch.cat.dat, mapping = aes(x=SCHOOL_RANK, y=Mean_SGPB_Observed, fill=NULL), col="black", size=1, show.legend=FALSE) +
     geom_point(sch.cat.dat, mapping = aes(x=SCHOOL_RANK, y=Mean_SGPB_Complete, fill=NULL), col="red", size=1, show.legend=FALSE) +
-    geom_hline(yintercept=50, col="#FFFFFF") + geom_hline(yintercept=mean.observd, col="black") + 
+    geom_hline(yintercept=50, col="#FFFFFF") + geom_hline(yintercept=mean.observd, col="black") +
 		geom_hline(yintercept=mean.imputed, col="green") + geom_hline(yintercept=mean.complet, col="red", linetype=2) +
     scale_color_manual(values=tmp.color.scale) + # scale_colour_viridis_d(option = "C") +
     theme(panel.background = element_rect(colour="#747474", fill="#747474"),
@@ -133,8 +135,9 @@ msgp.cat <-
     labs(color="F Significance") + coord_flip()
 
 if (!run.vignette) {
-	ggsave(filename = file.path(plot.dir, paste0("ELA_7_Sch_Growth_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")),
-  	     plot=msgp.cat, width=7, height = 5)
+	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Growth_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=7, height = 5)
+	msgp.cat
+	dev.off()
 }
 
 ##    Estimates by Percent Missing (and School Size)
@@ -164,6 +167,7 @@ msgp.pctm <-
     labs(color="F Significance", size="School Size")
 
 if (!run.vignette) {
-	ggsave(filename = file.path(plot.dir, paste0("ELA_7_Sch_Growth_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")),
-	       plot=msgp.pctm, width=9, height = 5)
+	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Growth_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=9, height = 5)
+	msgp.pctm
+	dev.off()
 }
