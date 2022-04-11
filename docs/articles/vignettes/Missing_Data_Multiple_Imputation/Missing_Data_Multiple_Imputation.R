@@ -180,7 +180,7 @@ impute_subset[, PERCENT_INST_FRL := mean(FRL, na.rm = TRUE), by = "SCHOOL_NUMBER
 ###   Specify imputation parameters
 M <- 20
 MAXIT <- 5
-impute.method <- "2l.pmm" # "2l.pan" # ?mice.impute.pmm # "pmm" #
+impute.method <- "pmm" # "2l.pmm" # "2l.pan" # ?mice.impute.pmm # 
 
 my.methods <- mice::make.method(data=impute_subset)
 my.methods[grep("^Z_SCORE", names(my.methods))] <- impute.method

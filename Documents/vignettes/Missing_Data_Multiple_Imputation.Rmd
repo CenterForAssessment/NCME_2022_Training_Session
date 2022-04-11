@@ -3,7 +3,7 @@ title: "Multiple Imputation with Simulated Missing Data"
 subtitle: "Virtual Training Session<br/>NCME Annual Meeting 2022"
 author: "Adam Van Iwaarden"
 date: "`r toOrdinal::toOrdinalDate(Sys.Date())`"
-output: 
+output:
   html_document:
     self_contained: false
 ---
@@ -11,19 +11,7 @@ output:
 ```{r setup, include=FALSE}
 	knitr::opts_chunk$set(echo = TRUE, dev = "svg", warning = FALSE, message = FALSE)
 # source("Missing_Data_Multiple_Imputation/Helper_Scripts/Required_Packages.R")
-	require(SGPdata)
-	require(data.table)
-	require(VIM)
-	require(mice)
-	require(miceadds)
-	require(ggplot2)
-	require(lme4)
-	require(merTools)
-	require(SGP)
-	require(gghighlight)
-
-	set.seed(4224)
-	
+	set.seed(30303)
 	run.vignette <- TRUE
 ```
 
@@ -57,13 +45,14 @@ function is also available in the [package documentation](https://centerforasses
 and the multiple imputation exercises mirror what is accomplished in the [`imputeScaleScore` function](https://centerforassessment.github.io/cfaTools/reference/imputeScaleScore.html).
 
 As with our early simulation studies, this training vignette uses the `sgpData_LONG_COVID`
-data available from the [SGPData](https://github.com/CenterForAssessment/SGPdata) package.
+data available from the [`SGPData`](https://github.com/CenterForAssessment/SGPdata) package.
 This simulated data conforms to the naming and structural conventions [required for data](https://centerforassessment.github.io/SGPdata/reference/index.html#section-data-sets-for-higher-level-sgp-functions)
 analysis using the [SGP package](https://github.com/CenterForAssessment/SGP).
 
-The following `R` packages will be used throughout:
+The `R` code used in this vignette is [available on Github](https://github.com/CenterForAssessment/NCME_2022_Training_Session/tree/main/Documents/vignettes/Missing_Data_Multiple_Imputation) 
+and the following `R` packages will be required to re-create the results:
 
-```{r package_list, eval = FALSE}
+```{r package_list}
 ###   Load required packages
 ##    Data and data management
 	require(SGPdata)
@@ -142,7 +131,7 @@ calculations. When it became clear that we would need additional tools to addres
 participation, we considered several alternatives and options to augment the analysis of
 the observed, imperfect, data ("pairwise deletion" of missing data). Ultimately multiple
 imputation (MI) was chosen over other alternatives such as maximum likelihood regression
-approaches or propensity score weighting/matching (although the latter can be used in 
+approaches or propensity score weighting/matching (although the latter can be used in
 tandem with MI). The reasons for this choice include:
 
   * Rather than substituting a single value for each missing data point, multiple plausible
@@ -160,11 +149,11 @@ Using data simulations is a useful tool for recognizing and anticipating missing
 preparing for potential problems that might occur and understanding the utility and limitations
 of certain statistical methods. By starting with a complete simulated data set, removing cases
 systematically and then performing statistical analyses (MI and subsequent analyses of interest),
-one can compare the "true" results to those from the complete, missing/observed and imputed data.
+one can compare the "true" results to those from the missing/observed and imputed data.
 This section of the training will deal with taking a complete data set and generating missing
 data patterns similar to those observed in some states in 2021. In the subsequent section we take
 this data and apply MI in an attempt to reconstruct the complete data structure before comparing
-several post-hoc analyses using the data in all three states of completion.
+several post-imputation analyses using the data in all three states of completion.
 
 
 ## Data retrieval and working directory setup
@@ -178,25 +167,25 @@ status and growth. The data comes with a "built-in" impact in 2021 related to th
 an unperturbed version - `"SCALE_SCORE_without_COVID_IMPACT"` is also available so that different
 impact scenarios can be modeled).
 
-This data set contains only "complete" records for students in the longitudinal form in that there 
-are no `NA` values in any variable. However, as will be discussed below, there are students who 
+This data set contains only "complete" records for students in the longitudinal form in that there
+are no `NA` values in any variable. However, as will be discussed below, there are students who
 repeat grades levels, drop out of the system, have records with gaps between years, etc. In this
-regard the data does include missing records, particularly for analyses conducted on cross-sectional 
+regard the data does include missing records, particularly for analyses conducted on cross-sectional
 (wide) data.
 
-A subset of `sgpData_LONG_COVID` restricted to the 2021 7<sup>th</sup> grade ELA cohort is used 
+A subset of `sgpData_LONG_COVID` restricted to the 2021 7<sup>th</sup> grade ELA cohort is used
 throughout this vignette. Our interest in this data will be to take a complete subset of the data
 and create missing data patterns only in the student score variables. No demographic, school/district
-identifiers, etc. will be made missing. These would be similar situations we have dealt with in 
-which students are known to be enrolled in a school, but were not tested for any number of reasons 
+identifiers, etc. will be made missing. These would be similar situations we have dealt with in
+which students are known to be enrolled in a school, but were not tested for any number of reasons
 (illness, refusal, school context etc.). This information is critical in being able to later use
 imputed data to estimate school and sub-group level impact of the COVID pandemic.
 
-The following code defines the cohort of interest, retrieves and subsets the data, and returns it 
-in a wide format^[Lengthy sections of data formatting and analysis code that do not directly deal 
-with missing data generation, imputation, or data analysis have been extracted to standalone `R` 
-scripts in the "Missing_Data_Multiple_Imputation/Helper_Scripts" directory]. A new variable is 
-also created in this step - a standardized scale score (`Z_SCORE`), which is standardized using 
+The following code defines the cohort of interest, retrieves and subsets the data, and returns it
+in a wide format^[Lengthy sections of data formatting and analysis code that do not directly deal
+with missing data generation, imputation, or data analysis have been extracted to standalone `R`
+scripts in the "Missing_Data_Multiple_Imputation/Helper_Scripts" directory]. A new variable is
+also created in this step - a standardized scale score (`Z_SCORE`), which is standardized using
 2019 as a reference year for all years.
 
 ``` {r get_data}
@@ -216,7 +205,7 @@ source("Missing_Data_Multiple_Imputation/Helper_Scripts/Data_Retrieval_Initial.R
 Inspecting the `wide_data` object returned from this reveals that missing data is already present
 even though all cases in the original `sgpData_LONG_COVID` object are complete. The conversion
 from long to wide data reveals the presence of students who have disappeared from the system,
-repeated a grade, etc. and now show up as missing records in some years. This is a valuable 
+repeated a grade, etc. and now show up as missing records in some years. This is a valuable
 lesson that even when data may be presented as "complete", that assumption may not hold in all
 contexts.
 
@@ -235,7 +224,7 @@ forward.
 ##  The `ampute` function
 
 The `mice::ampute` function was developed to provide a systematic process for simulating missing
-data. A user can specify a number of parameters including the proportion, patterns and factors 
+data. A user can specify a number of parameters including the proportion, patterns and factors
 (observed variables) that contribute to missing data. The author of this function, Rianne Schouten,
 provides an excellent vignette [online.](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#missingness_proportion_per_variable)
 
@@ -275,19 +264,19 @@ test.result$patterns
 ```
 
 There are several things to note about the data amputation results here. The default
-proportion of missing cases (`prop = 0.5`) is higher than what we want to replicate 
-(~`0.325`). In the `md.pattern` plot we see that the default missing patterns (red 
-squares indicate missing cases are present) include the aggregate school measures we 
-created. This makes no sense in our context - we only want missing values in the 
-student-level variables. Also, there are only patterns in which one variable is missing 
-per row, where we would actually like to see patterns where students may be missing 
+proportion of missing cases (`prop = 0.5`) is higher than what we want to replicate
+(~`0.325`). In the `md.pattern` plot we see that the default missing patterns (red
+squares indicate missing cases are present) include the aggregate school measures we
+created. This makes no sense in our context - we only want missing values in the
+student-level variables. Also, there are only patterns in which one variable is missing
+per row, where we would actually like to see patterns where students may be missing
 multiple years of data (for example, only having data for 2021).
 
 
 ###  Missing data patterns
 
 To customize the patterns that are included, we will supply a customized `data.frame`
-to the `patterns` argument. We will also specify the proportion of missing values 
+to the `patterns` argument. We will also specify the proportion of missing values
 we want to achieve (overall) in the data.
 
 ``` {r ampute_patterns, fig.width=350/72, fig.height=350/72, fig.align='center'}
@@ -317,7 +306,7 @@ data is roughly equal for each variable. The output from `test.result$freq` show
 each pattern is missing at the same rate, which does not match what we want to simulate
 pre-pandemic or in 2021.
 
-``` {r ampute_freq, fig.width=350/72, fig.height=350/72, fig.align='center'}
+``` {r ampute_freq}
 my.freq <- c(0.1,   #  only missing 2018 - fairly common previously
              0.05,  #  only missing 2019 - less common
              0.50,  #  only missing 2021 - most likely
@@ -326,7 +315,7 @@ my.freq <- c(0.1,   #  only missing 2018 - fairly common previously
              0.075  #  only 2018 scores  - less common, but still occurs
             )   #   frequencies must sum to 1
 test.result <- ampute(ampute_subset, prop = 0.3, patterns = my.patterns, freq = my.freq)
-md.pattern(test.result$amp, rotate.names = TRUE)
+md.pattern(test.result$amp, plot = FALSE)
 ```
 
 
@@ -337,24 +326,24 @@ a custom matrix of factor weights. For example, here we will simulate missingnes
 is correlated with (low) achievement and also assume that these factors are compounded
 by the school level concentration of low achievement.
 
-The default weight matrix is identical to the pattern matrix, so the first row of the 
-weight matrix corresponds to the pattern specified in the first row of the pattern matrix. 
-Here a `0` means a variable contributes nothing to the missing data pattern. Weights are 
-relative and can be either integers or values between 0 and 1. For example one can use 
-`c(4, 1)` to specify that the first variable contributes 4 times as much weight as the 
+The default weight matrix is identical to the pattern matrix, so the first row of the
+weight matrix corresponds to the pattern specified in the first row of the pattern matrix.
+Here a `0` means a variable contributes nothing to the missing data pattern. Weights are
+relative and can be either integers or values between 0 and 1. For example one can use
+`c(4, 1)` to specify that the first variable contributes 4 times as much weight as the
 second, or use `c(1, 0.25)` for the same effect.
 
-The weight matrix below allows us to produce missing data that includes a variety of 
-factors and weights ranging from "missing completely at random" (MCAR) to "missing at 
-random" (MAR) and "missing not at random" (MNAR, i.e. missing cases depend on the unobserved 
-values of the variable in question rather than other variables observed in the data). 
-Weights can also be positive or negative. Positive values mean that variables with a 
-higher weighted sum-score have a higher probability of being made missing and vice-versa. 
-In this example, we want lower achieving students/schools to have a higher probability 
-of being amputed, so we will multiply the matrix by `-1` - making all but one value 
+The weight matrix below allows us to produce missing data that includes a variety of
+factors and weights ranging from "missing completely at random" (MCAR) to "missing at
+random" (MAR) and "missing not at random" (MNAR, i.e. missing cases depend on the unobserved
+values of the variable in question rather than other variables observed in the data).
+Weights can also be positive or negative. Positive values mean that variables with a
+higher weighted sum-score have a higher probability of being made missing and vice-versa.
+In this example, we want lower achieving students/schools to have a higher probability
+of being amputed, so we will multiply the matrix by `-1` - making all but one value
 negative in the final weight matrix.
 
-```{r ampute_weights, fig.width=350/72, fig.height=350/72, fig.align='center'}
+```{r ampute_weights}
 my.weights <- test.result$weights
 
 my.weights[1,] <- c(0, 0, 0, 0)     #  MCAR - missing completely at random
@@ -371,16 +360,16 @@ test.result <- ampute(ampute_subset, prop = 0.325,
                       patterns = my.patterns,
                       freq = my.freq,
                       weights = my.weights)
-md.pattern(test.result$amp, rotate.names = TRUE)
+md.pattern(test.result$amp, plot = FALSE)
 ```
 
-In addition to the `md.pattern` plot we can look at box plots available in the `mice`
-package to insure that the data distributions by pattern meet our expectations.
+In addition to the `md.pattern` plot we can look at box plots available from
+`mice::bwplot` to insure that the data distributions by pattern meet our expectations.
 
-``` {r ampute_boxplots, fig.width=500/72, fig.height=350/72, fig.align='center'}
-bwplot(test.result, which.pat = 2, descriptives = TRUE)
-bwplot(test.result, which.pat = 3, descriptives = TRUE)
-bwplot(test.result, which.pat = 5, descriptives = TRUE)
+``` {r ampute_boxplots, fig.width=500/72, fig.height=350/72, fig.align='center', echo = FALSE}
+bwplot(test.result, which.pat = 2, descriptives = FALSE)
+bwplot(test.result, which.pat = 3, descriptives = FALSE)
+bwplot(test.result, which.pat = 5, descriptives = FALSE)
 ```
 
 
@@ -401,10 +390,10 @@ nrow(na.omit(wide_data))/nrow(wide_data); 6341/9377 #  +32% overall missing prop
 ## Missing data exploration/visualization
 
 With a promising set of amputed data, we can further evaluate it to make sure it looks
-like what we wanted. In our assumptions, we expect to see more missing data for students 
-with lower 2019 scale scores. The following visualizations from the `VIM` package are 
-helpful in exploring missing data relationships. See the VIM package for more context on 
-these plots. In general, blue means observed data, red means missing. A good introduction 
+like what we wanted. In our assumptions, we expect to see more missing data for students
+with lower 2019 scale scores. The following visualizations from the `VIM` package are
+helpful in exploring missing data relationships. See the VIM package for more context on
+these plots. In general, blue means observed data, red means missing. A good introduction
 is given [here](https://www.datacamp.com/community/tutorials/visualize-data-vim-package).
 
 The first `VIM` plot produced is a set of histograms that compares missing data patterns
@@ -414,7 +403,7 @@ missing cases are more-or-less randomly distributed given 2018 observed scores, 
 missing case distribution is heavily concentrated in lower prior score observations.
 
 
-```{r vim1, fig.width=350/72, fig.height=350/72, fig.align='center'}
+```{r vim_hists, fig.width=350/72, fig.height=350/72, fig.align='center'}
 ###   Missing data visualizations with VIM
 # 2019
 histMiss(as.data.frame(wide_data[, c("Z_SCORE.2018", "Z_SCORE.2019")]),
@@ -443,10 +432,10 @@ an effect of FRL status on achievement.
 
 We can look at the amputed data relative to what we know to be "true". Even though we
 specified a weak MNAR missing pattern, we see that missingness is highly correlated with
-unobserved (current) score because we have used prior scores to determine the probability 
+unobserved (current) score because we have used prior scores to determine the probability
 of being missing. Given their high correlation, this plays out in the amputed data as well.
 
-``` {r VIM_comp_v_amp, fig.width=350/72, fig.height=350/72, fig.align='center'}
+``` {r vim_comp_v_amp, fig.width=350/72, fig.height=350/72, fig.align='center'}
 histMiss(as.data.frame(wide_data[, c("COMPLETE_Z.2021", "Z_SCORE.2021")]),
          main = "2021 Missing by 2021 Complete", breaks=25, interactive=FALSE, only.miss=FALSE)
 abline(v=0, col="green", lwd=2)
@@ -455,31 +444,31 @@ abline(v=0, col="green", lwd=2)
 
 # Multiple Imputation
 
-Multiple imputation (MI) is a simulation-based procedure. Its purpose is not to re-create 
+Multiple imputation (MI) is a simulation-based procedure. Its purpose is not to re-create
 the (true) individual missing values, but to achieve valid statistical inference in the
-presence of missing data (Schafer, 1997). MI methods use information from the observed 
-data to generate a set of plausible values for the missing observations in the data. 
-This procedure is repeated many times to account for sampling error that arises when 
-generating these values, and model parameters are pooled across the imputed data sets 
-(Enders, 2010; Fox & Weisberg, 2018). As Fox and Weisberg (2018) write, MI "takes into 
-account not only uncertainty due to residual variation - that is, the inability to predict 
-missing values without error from the observed data (e.g., by sampling from the estimated 
-error distribution for a continuous variable or sampling from the estimated conditional 
-probability distribution of a factor) - but also uncertainty in the parameter estimates 
-used to obtain the predictions (by sampling from the estimated distribution of the parameters 
+presence of missing data (Schafer, 1997). MI methods use information from the observed
+data to generate a set of plausible values for the missing observations in the data.
+This procedure is repeated many times to account for sampling error that arises when
+generating these values, and model parameters are pooled across the imputed data sets
+(Enders, 2010; Fox & Weisberg, 2018). As Fox and Weisberg (2018) write, MI "takes into
+account not only uncertainty due to residual variation - that is, the inability to predict
+missing values without error from the observed data (e.g., by sampling from the estimated
+error distribution for a continuous variable or sampling from the estimated conditional
+probability distribution of a factor) - but also uncertainty in the parameter estimates
+used to obtain the predictions (by sampling from the estimated distribution of the parameters
 of the imputation model)" (p. 3).
 
-There are numerous MI methods available, largely differentiated by the model used to generate 
+There are numerous MI methods available, largely differentiated by the model used to generate
 the imputed values. MI methods can be broadly grouped into those that use joint modeling (JM)
-or fully conditional specification (FCS). JM assumes that the data come from a multivariate 
-distribution and imputations are drawn from a fitted distribution (typically multivariate 
-normal). FCS, also known as MI with chained equations (MICE), is a semi-parametric approach 
-that imputes multivariate missing data one variable at a time in an iterative fashion for each 
-incomplete variable. It is parametric in that each variable can potentially have a different 
-imputation model with a set of predictors that explain the missing data. It is non-parametric 
-in that the form (e.g. linear) of the imputation model is specified depending on the type of 
-variable (binary, count, ordinal, continuous, etc.). Trade offs between the two types include 
-better theoretical underpinnings in JM and flexibility while preserving unique features of 
+or fully conditional specification (FCS). JM assumes that the data come from a multivariate
+distribution and imputations are drawn from a fitted distribution (typically multivariate
+normal). FCS, also known as MI with chained equations (MICE), is a semi-parametric approach
+that imputes multivariate missing data one variable at a time in an iterative fashion for each
+incomplete variable. It is parametric in that each variable can potentially have a different
+imputation model with a set of predictors that explain the missing data. It is non-parametric
+in that the form (e.g. linear) of the imputation model is specified depending on the type of
+variable (binary, count, ordinal, continuous, etc.). Trade offs between the two types include
+better theoretical underpinnings in JM and flexibility while preserving unique features of
 the data with FCS (Van Buuren, 2018).
 
 ## The three steps of multiple imputation
@@ -498,11 +487,11 @@ The figure below (Figure 5.1 in Van Buuren, 2018) provides a nice visual synopsi
 knitr::include_graphics("ch01-miflow-1.png", error = FALSE)
 ```
 
-In the context of learning loss analyses, we have used MI to estimate mean scale score and 
-baseline SGP values to draw comparisons between pre- and post-pandemic test results. Notably, 
-such comparisons are not aimed at accountability initiatives, but rather to provide states, 
-districts and schools with a better understanding of how student learning was impacted. Such 
-information can inform how states, districts and schools can better support students moving 
+In the context of learning loss analyses, we have used MI to estimate mean scale score and
+baseline SGP values to draw comparisons between pre- and post-pandemic test results. Notably,
+such comparisons are not aimed at accountability initiatives, but rather to provide states,
+districts and schools with a better understanding of how student learning was impacted. Such
+information can inform how states, districts and schools can better support students moving
 forward by assessing their recovery.
 
 
@@ -520,21 +509,21 @@ in late spring 2021, at least eight MI algorithms were applied and compared. The
   - Quantile regression (`Qtools::mice.impute.rrq`)
   - Random forests (`mice::mice.impute.rf`)
 
-These simulation studies were summarized and documented meticulously by the Center's 2021 
+These simulation studies were summarized and documented meticulously by the Center's 2021
 intern, Allie Cooperman, and are available on her [internship website.](https://centerforassessment.github.io/Internship_2021/articles/MI_Vignette_Landing_Page.html)
 
-Overall, the cross-sectional modeling with pan demonstrated the best performance among the 
-examined methods. Specifically, it was most often able to maintain average percent bias 
-for school level aggregates for achievement (mean scale scores) and growth (mean baseline 
-SGPs) below 5%, while simultaneously constructing confidence intervals with higher coverage 
-rates. Additionally, it most often failed to reject the null hypothesis that the imputed 
-and true values are equivalent. In other words, the other MI methods more often found 
-statistically significant differences (using the simplified F1 statistic of Vink and 
-Van Buuren, 2014) between the imputed and true average achievement and growth values. 
-Finally, it was the only method found to be negatively related to scale score bias, suggesting 
+Overall, the cross-sectional modeling with pan demonstrated the best performance among the
+examined methods. Specifically, it was most often able to maintain average percent bias
+for school level aggregates for achievement (mean scale scores) and growth (mean baseline
+SGPs) below 5%, while simultaneously constructing confidence intervals with higher coverage
+rates. Additionally, it most often failed to reject the null hypothesis that the imputed
+and true values are equivalent. In other words, the other MI methods more often found
+statistically significant differences (using the simplified F1 statistic of Vink and
+Van Buuren, 2014) between the imputed and true average achievement and growth values.
+Finally, it was the only method found to be negatively related to scale score bias, suggesting
 reduced scale score bias compared to the "observed" condition.
 
-Although this modeling choice worked well for our needs, it is important to stress that 
+Although this modeling choice worked well for our needs, it is important to stress that
 these choices will depend on, and should be driven by, the specific contexts of the data
 and the statistical model(s) to be used in the analysis step of the workflow.  There is
 no "one-size-fits-all" solution.
@@ -553,9 +542,9 @@ Again, the only variables with missing data in them are the student level (stand
 scale scores, so these will be the only variables being imputed. These would be similar
 to students who were known to be enrolled in a school, but were not tested.
 
-Note we are also keeping our complete ("true") score values in this subset. These will 
+Note we are also keeping our complete ("true") score values in this subset. These will
 NOT be used for imputation (cheating!), but we want to keep them in our data set for
-subsequent analyses. This can be done for any number of variables of interest (e.g., 
+subsequent analyses. This can be done for any number of variables of interest (e.g.,
 demographics, indicators of mode of instruction, etc.), but they must be given special
 attention to ensure they are/not used as imputation predictors as desired.
 
@@ -574,9 +563,8 @@ impute_subset[, PERCENT_INST_FRL := mean(FRL, na.rm = TRUE), by = "SCHOOL_NUMBER
 
 Next we will define a few key parameters for the MI process. These include the number
 of imputed data sets we want (`M`), the number of iterations we will allow for each
-imputation (`MAXIT`) to converge on an answer and the imputation algorithm (`impute.method`). 
-We also produce default arguments for the `mice::mice` function for the `method` and 
-`predictorMatrix` arguments.
+imputation (`MAXIT`) to converge on an answer and the imputation algorithm (`impute.method`).
+We also produce default `method` and `predictorMatrix` objects for those arguments.
 
 ``` {r imp_def}
 ###   Specify imputation parameters for `mice::mice`
@@ -589,11 +577,11 @@ my.predMtrx <- mice::make.predictorMatrix(data=impute_subset)
 ```
 
 We will modify the assignment of `method` and predictors to ensure that we are
-using our chosen imputation methods and prediction factors. Here we assign the 
+using our chosen imputation methods and prediction factors. Here we assign the
 score variables the `impute.method` of choice (redundant here as `pmm` is the
 default in `mice` for most variable types) and prevent ID and the complete scores
 from being either predicted or used in any predictions. Note that only variables
-with missing data will be assigned a `method` from and all variables are used to 
+with missing data will be assigned a `method` from and all variables are used to
 predict others by default in `make.method` and `make.predictorMatrix`.
 
 ``` {r modify_pred_meth}
@@ -614,7 +602,7 @@ my.predMtrx["SCHOOL_NUMBER", grep("^Z_SCORE", names(my.methods))] <- 1
 ```
 
 
-###  Step 1 - Create `M` imputed data sets
+##  Step 1 - data imputation
 
 We are now ready to create our first set of imputed data.
 
@@ -625,15 +613,15 @@ imputed_results <- mice::mice(data = impute_subset,
                               m = M, maxit = MAXIT, seed = 719589L, print = FALSE)
 ```
 
-That was fast! We should look at a few diagnostic plots to assess how the process 
-went. This first plot looks at the convergence of the `M` imputations over the `MAXIT` 
+That was fast! We should look at a few diagnostic plots to assess how the process
+went. This first plot looks at the convergence of the `M` imputations over the `MAXIT`
 iterations.
 
 ``` {r pmm_converge, fig.width=500/72, fig.height=400/72, fig.align='center'}
 plot(imputed_results)
 ```
 
-The second plot looks at the distribution densities of the `M` imputations (in red) 
+The second plot looks at the distribution densities of the `M` imputations (in red)
 compared to the observed distribution (blue) for each of the imputed variables.
 
 ``` {r pmm_dense, fig.width=500/72, fig.height=400/72, fig.align='center'}
@@ -641,7 +629,7 @@ densityplot(imputed_results)
 ```
 
 The final diagnostic plot is a custom set of scatter plots that allow us to compare
-the bivariate distribution of the complete, imputed and observed data (top to bottom). 
+the bivariate distribution of the complete, imputed and observed data (top to bottom).
 Plots in the left column are the prior years (2018 and 2019) and those on the right are
 for 2019 and 2021.
 
@@ -654,11 +642,10 @@ gridExtra::grid.arrange(truth.p, truth.c, impute.p, impute.c, ampute.p, ampute.c
 ```
 
 
-
-###  Step 2/3 - imputation analysis and results pooling
+##  Step 2/3 - imputation analysis and results pooling
 
 We will now conduct `M` sets of analyses and one set of pooled results for the imputed
-data. We also identical analyses using both the complete and observed data. We proceed
+data. We also run identical analyses using both the complete and observed data. We proceed
 by first collecting the imputations into a `list` object and converting each of those
 as well as the `wide_data` back into longitudinal form.
 
@@ -672,11 +659,11 @@ source("Missing_Data_Multiple_Imputation/Helper_Scripts/Data_Retrieval_for_Analy
 ```
 
 
-#### Linear mixed effects model
+### Linear mixed effects model
 
 The first post-imputation analysis we will run is a linear mixed effects model. This
 has been selected because it is a fairly interesting, and popular, model for analyzing
-longitudinal student data for students nested within schools. It also provides us with
+longitudinal data for students nested within schools. It also provides us with
 results that have well documented and operationalized procedures for pooling results.
 Specifically, in this exercise we submit that the parameter of interest is a fixed
 effect estimate for COVID impact. We can easily get a pooled estimate of this parameter
@@ -694,24 +681,78 @@ imp_mods <- lmerModList(formula=frmla, data = res_long, control = lmer.ctl)
 source("Missing_Data_Multiple_Imputation/Helper_Scripts/MI_LME_Model_Comp.R")
 ```
 
-``` {r pmm_comptable, include = FALSE, results="asis"}
-options(datatable.print.colnames = "none")
-knitr::knit_print(comp_table, class = F)
-options(datatable.print.colnames = "auto")
-```
 
+### Baseline student growth percentiles
 
-#### Baseline student growth percentiles
+Student growth percentiles, being quantities associated with each individual student,
+can be easily summarized across numerous grouping indicators to provide summary results
+regarding growth. ***Cohort*** referenced percentiles, being annually normed across all
+students in the state, the median of all student growth percentiles in any grade is 50
+when we have perfect data fit. The median of a collection of growth percentiles is used
+as the measure of central tendency to summarize the distribution as a single number.
+Median growth percentiles well below 50 represent growth less than the state "average" and
+median growth percentiles well above 50 represent growth in excess of the state "average".
+
+It is important to note how, at the entire state level, the *normative* growth information
+returns very little information. What the results indicate is that a typical (or average)
+student in the state demonstrates 50th percentile growth. That is, a "typical students"
+demonstrate "typical growth". The power of the normative results follows when subgroups
+are examined (e.g., schools, district, ethnic groups, etc.). Examining subgroups in terms
+of the median of their student growth percentiles, it is then possible to investigate why
+some subgroups display lower/higher student growth than others. Moreover, because the subgroup
+summary statistic (i.e., the median) is composed of many individual student growth percentiles,
+one can break out the result and further examine the distribution of individual results.
+
+***Baseline*** SGPs provide us with a way to look at normative growth through another lens.
+Rather than considering a single year's cohort, baseline SGPs are referenced against a cohort
+of interest. This could be a "super-cohort" comprised of several years of students linked by
+common course/grade progressions, or a single particular cohort. In the COVID impact analyses,
+the 2019 cohorts were used to establish the baselines. Baseline comparisons allow us to examine
+whether or not the system as a whole might be improving (or declining) over time relative
+to the established baseline. A major assumption required here is that the scale scores are
+well anchored. If this assumption does not hold, then any deviation from "typical" growth may
+be purely an artifact of the test scaling procedure.
+
+In the case of COVID impact analyses, we expected to (and did) see median SGP values well below
+50 at state, district and school levels. As we move beyond 2021, we hope to see that systems are
+improving (recovering) over time. We would see that improvement in the form of median SGPs that
+are greater than 50 (what *was* typical growth in the past would now be lower growth).
+
+The following script creates baseline SGPs for the 2021 7<sup>th</sup> grade ELA cohort using
+the complete, missing/observed and 20 imputed data sets. Several objects of interest are returned
+including `Complete_SGP` and `Missing_SGP`, which are typical SGP class objects from the associated
+data. The 20 analyses using imputation data are combined into a single data table - `Imputed_SGP_Data`.
+Estimates for school level values (mean scores, pooled errors, etc.) are calculated and available
+in the `SGP_Imputation_Summaries` object.
 
 ``` {r pmm_sgp}
-###   Run Baseline SGP analyses using complete, missing (observed), and imputed data
-
+##   Run Baseline SGP analyses using complete, missing (observed), and imputed data
 source("Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_Baseline_Analyses.R")
-##    Returns several objects of interest including `Complete_SGP` and `Missing_SGP`,
-##    which are typical SGP class objects from the associated data.  The 20 analyses
-##    using imputation data are combined into a single data table - `Imputed_SGP_Data`.
-##    Estimates for school level values (means, pooled errors, etc.) are in `SGP_Imputation_Summaries`.
+##    Returns `Complete_SGP`, `Missing_SGP`, `Imputed_SGP_Data` and `SGP_Imputation_Summaries`.
 ```
+
+For our analyses, we wanted to quantify COVID impact at various institutional and subgroup levels in
+metrics that would 1) be meaningful to both stakeholders and fellow researchers and 2) communicate
+additional uncertainty due to missing data. Some of the statistics we calculated included:
+
+  * Mean/median scale scores (2021 status)
+  * Percent Proficient (2021 status)
+  * Mean/median baseline SGPs (2021 growth)
+  * Change scores in the above status and growth metrics (2019 to 2021)
+  * Effect sizes for 2019 to 2021 changes
+
+The caterpillar plots below show 2021 school mean scale scores and baseline SGPs estimated from
+the analyses we just ran. In all plots *red* points and lines correspond to values from the complete 
+data analysis, observed values are *black*, and *green* pertains to imputations. Error bars are 
+associated with the imputations and color coded by significance levels for the difference between
+the imputed and observed values.
+
+Plots similar to these were originally developed during the imputation method vetting process, and 
+the ***F*** statistics corresponded to the difference between the imputations and the "true" complete 
+values. The difference in these represent how we used such error bars and statistics with states' 
+observed/missing data to flag schools where the MI analyses produced significantly different assessments 
+of schools' status or growth than what was indicated in the missing data.
+
 
 ``` {r pmm_make_catplots}
 source("Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_MI_Caterpillar_Plots.R")
@@ -720,28 +761,171 @@ source("Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_MI_Caterpillar_Plots
 ```
 
 
-``` {r pmm_mss_cat, fig.width=500/72, fig.height=400/72, fig.align='center'}
+``` {r pmm_mss_cat, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
 mss.cat
 ```
 
-``` {r pmm_mss_pctm, fig.width=500/72, fig.height=400/72, fig.align='center'}
+``` {r pmm_mss_pctm, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
 mss.pctm
 ```
 
-``` {r pmm_msgp_cat, fig.width=500/72, fig.height=400/72, fig.align='center'}
+The status plots suggest that the `pmm` method does a decent job of recovering the school mean scale
+scores. The second plot "dissects" the caterpillar and shows the relationship between percent missing,
+mean scale scores and school size. As this plot suggests, and what we found in our simulations, is that
+the accuracy of the imputations has less to do with the percent missing in a school than it does with
+the size of the school.
+
+``` {r pmm_msgp_cat, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
 msgp.cat
 ```
 
-``` {r pmm_msgp_pctm, fig.width=500/72, fig.height=400/72, fig.align='center'}
+``` {r pmm_msgp_pctm, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
 msgp.pctm
 ```
 
-#  Discussion
+The growth plots show that the `pmm` method does not really help much with recovering "true" typical
+school growth. It is, on average, little changed from the observed values. This is also something that
+we found regularly in our simulation studies. Overall, measures of growth with missing data is less
+biased than measures of status (probably due to the fact that growth takes students' prior achievement
+into account), but MI does less to correct for what bias is there.
 
-Things to consider:
+We now demonstrate how to change the imputation method and re-run the analyses.
+
+##  Data imputation with `2l.pan`
+
+In order to change the imputation method, we will repeat the steps after we set up the `impute_subset`
+object.  This can be an iterative process changing imputation methods, predictor factors or any other
+number of parameters.  Here we will use the cross-sectional model (students nested within schools)
+that was found to be superior for correcting missing data bias in school mean/median status and growth.
+We will also remove `FRL` and `PERCENT_INST_FRL` from the predictors given that we know those factors
+were not part of our missing data generation process (and may have contributed to over-estimating the
+impact from other imputation method comparisons not shown here).
+
+``` {r imp_def2}
+###   Specify imputation parameters for `mice::mice`
+impute.method <- "2l.pan"
+
+##    Cluster identifiers need to be integers for most 2-level methods
+impute_subset[, SCHOOL_NUMBER := as.integer(SCHOOL_NUMBER)]
+
+my.methods <- mice::make.method(data=impute_subset)
+my.methods[grep("^Z_SCORE", names(my.methods))] <- impute.method
+
+my.predMtrx <- mice::make.predictorMatrix(data=impute_subset)
+my.predMtrx[, "ID"] <- 0
+my.predMtrx[, "SCHOOL_NUMBER"] <- 0
+
+my.predMtrx[grep("^Z_SCORE", names(my.methods)), "SCHOOL_NUMBER"] <- -2
+my.predMtrx["SCHOOL_NUMBER", grep("^Z_SCORE", names(my.methods))] <- 2
+
+my.predMtrx[, grep("COMPLETE_Z", rownames(my.predMtrx))] <- 0 # i.e. "Nothing used to predict it" -- redundant my.methods["COMPLETE_Z"] == ""
+my.predMtrx[grep("COMPLETE_Z", rownames(my.predMtrx)), ] <- 0 # i.e. "It's used to predict nothing"
+my.predMtrx["FRL",] <- 0
+my.predMtrx["PERCENT_INST_FRL",] <- 0
+my.predMtrx[, "FRL"] <- 0
+my.predMtrx[, "PERCENT_INST_FRL"] <- 0
+```
+
+
+##  Step 1b - create new imputed results
+
+We are now ready to create our SECOND set of imputed data.
+
+``` {r getRdone2}
+imputed_results <- mice::mice(data = impute_subset,
+                              method = my.methods,
+                              predictorMatrix = my.predMtrx,
+                              m = M, maxit = MAXIT, seed = 719589L, print = FALSE)
+```
+
+We will again look at a few diagnostic plots to assess how the process went. This
+first plot looks at the convergence of the `M` imputations over the `MAXIT` iterations.
+
+``` {r l2pan_converge, fig.width=500/72, fig.height=400/72, fig.align='center'}
+plot(imputed_results)
+```
+
+The second plot looks at the distribution densities of the `M` imputations (in red)
+compared to the observed distribution (blue) for each of the imputed variables.
+
+``` {r l2pan_dense, fig.width=500/72, fig.height=400/72, fig.align='center'}
+densityplot(imputed_results)
+```
+
+``` {r l2pan_scat, fig.width=500/72, fig.height=700/72, fig.align='center', echo=FALSE}
+long_imputed <- as.data.table(complete(imputed_results, action="long", include=TRUE))
+single_imputation <- long_imputed[.imp == M-1,] # .imp %in% c(13:17)
+
+source("Missing_Data_Multiple_Imputation/Helper_Scripts/MI_Data_Comp_Plots.R")
+gridExtra::grid.arrange(truth.p, truth.c, impute.p, impute.c, ampute.p, ampute.c, ncol=2)
+```
+
+
+##  Step 2/3 - imputation analysis and pooling with `2l.pan`
+
+``` {r dat4anal2}
+###   Collect all imputation results in a list length = M
+res <- miceadds::mids2datlist(imputed_results)
+
+###   Convert data (complete, missing, and imputed) to long format
+source("Missing_Data_Multiple_Imputation/Helper_Scripts/Data_Retrieval_for_Analysis.R")
+##    Returns objects `long_complete`, `long_amputed` and `res_long`
+```
+
+
+### Linear mixed effects model
+
+``` {r l2pan_hlm}
+frmla <- as.formula("Z_SCORE ~ YEAR + COVID_IMPACT*FRL + (COVID_IMPACT | SCHOOL_NUMBER/ID)")
+lmer.ctl <- lmerControl(check.conv.grad = .makeCC("warning", 0.02, NULL))
+
+true_mod <- lmer(formula = frmla, data = long_complete, control = lmer.ctl)
+miss_mod <- lmer(formula = frmla, data = long_amputed, control = lmer.ctl)
+imp_mods <- lmerModList(formula=frmla, data = res_long, control = lmer.ctl)
+
+print(comp_table, class = F, row.names = F) # print out original table from `pmm`
+
+###   Collate and print model (fixed effects) estimate comparison
+source("Missing_Data_Multiple_Imputation/Helper_Scripts/MI_LME_Model_Comp.R")
+```
+
+
+### Baseline student growth percentiles
+
+
+``` {r l2pan_sgp}
+##   Run Baseline SGP analyses using complete, missing (observed), and imputed data
+source("Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_Baseline_Analyses.R")
+##    Returns `Complete_SGP`, `Missing_SGP`, `Imputed_SGP_Data` and `SGP_Imputation_Summaries`.
+```
+
+``` {r l2pan_make_catplots}
+source("Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_MI_Caterpillar_Plots.R")
+##    Creates caterpillar plots for school-level mean achievement and growth.
+##    These include bands of uncertainty associated with the imputations.
+```
+
+
+``` {r l2pan_mss_cat, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
+mss.cat
+```
+
+``` {r l2pan_mss_pctm, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
+mss.pctm
+```
+
+``` {r l2pan_msgp_cat, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
+msgp.cat
+```
+
+``` {r l2pan_msgp_pctm, fig.width=600/72, fig.height=400/72, fig.align='center', echo = FALSE}
+msgp.pctm
+```
+
+#  Things to consider:
 
   * We have only looked at a cohort that had prior scores available. The situation is more difficult when no prior achievement information is available
-  * We are only looking at 2021 results/model output. We would need to have some comparable 
+  * We are only looking at 2021 results/model output. We would need to have some comparable
     results from 2019 in order to make meaningful assessment of COVID impact (particularly at
     the school level)
 
@@ -789,5 +973,6 @@ Zhao, J. H., & Schafer, J. L. (2018). pan: Multiple imputation for multivariate 
 
 Bates, D., Maechler, M., Bolker, B., & Walker, S. (2015). Fitting linear mixed-effects models using lme4. *Journal of Statistical Software, 67*(1), 1-48. https://doi.org/10.18637/jss.v067.i01.  
 
-Betebenner, D. W., Van Iwaarden, A. R., & Domingue, B. (2021). SGPdata: Exemplar data sets for student growth percentile (SGP) analyses. R package version 25.1-0.0. https://centerforassessment.github.io/SGPdata/
+Betebenner, D. W., Van Iwaarden, A. R., Domingue, B. & Shang, Y. (2022). SGP: Student Growth Percentiles & Percentile Growth Trajectories. R package version 1.9-9.987. URL: https://sgp.io
 
+Betebenner, D. W., Van Iwaarden, A. R., & Domingue, B. (2021). SGPdata: Exemplar data sets for student growth percentile (SGP) analyses. R package version 25.1-0.0. https://centerforassessment.github.io/SGPdata/

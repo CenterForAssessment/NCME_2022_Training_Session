@@ -34,6 +34,7 @@ navbar:
         href: articles/presentations/Academic_Impact_Part_1.html
       - text: "Presentation 4: April 10th, 3:45 to 4:45"
       - text: "Presentation 5: April 11th, 1:00 to 3:00"
+        href: articles/presentations/MI_w_Missing_Data.html
       - text: "Presentation 6: April 11th, 3:15 to 4:45"
         href: articles/presentations/Damian_Presentation_3.html
     - text: Documents
