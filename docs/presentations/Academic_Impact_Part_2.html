@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Visualization and Analysis in the Era of COVID-19</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Damian Betebenner, Adam VanIwaarden &amp; Nathan Dadey" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, my-title, title-slide
+
+.title[
+# Data Visualization and Analysis in the Era of COVID-19
+]
+.subtitle[
+## Academic Impact Part 2
+]
+.author[
+### Damian Betebenner, Adam VanIwaarden &amp; Nathan Dadey
+]
+.institute[
+### Center for Assessment
+]
+.date[
+### March 22nd, 2022 (updated: April 11th, 2022)
+]
+
+---
+
+class: inverse, center, middle
+
+
+
+
+
+<style>.shareagain-bar {
+--shareagain-foreground: rgb(255, 255, 255);
+--shareagain-background: rgba(0, 0, 0, 0.5);
+--shareagain-facebook: none;
+--shareagain-linkedin: none;
+--shareagain-pinterest: none;
+--shareagain-pocket: none;
+--shareagain-reddit: none;
+}</style>
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(https://centerforassessment.github.io/assets/favicon.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
+
+
+
+# Academic Impact
+
+---
+
+## Learning Deceleration/Acceleration
+
+--
+
+- Summarization of assessment data (either for diagnostic or accountability purposes) of emphasizes two types of data results: Status (i.e. student attainment) and Growth (i.e., student academic progress).
+
+- With the pandemic, emaphasis has changed to look at _academic impact_.
+
+- In yesterday's introduction we discussed status impact (odometer) and growth impact (speedometer).
+
+- We emphasize that Impact is synonymous with _decleration_ and Recovery is synonymous with _acceleration_.
+
+- Deceleration, by definition, is the change in velocity (i.e. growth).
+
+- Improvement (increasing student attainment/status in a system over time) is indicative of acceleration (unless the population is changing leading to the increased attainment/status)
+
+- One of the most informative and least appreciated papers that discusses this is [Focusing State Educational Accountability Systems: Four Methods of Judging School Quality and Progress](https://www.nciea.org/sites/default/files/publications/Dale020402.pdf)
+
+
+---
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-1-1.png" width="4400" /&gt;
+
+---
+
+# Data to Investigate Academic Impact
+
+- The data set we will utilize is called __sgpData_LONG_COVID__ and is a part of the __SGPdata__ package you've installed.
+
+- Load the package into your R environment:
+
+
+```r
+require("SGPdata")
+```
+
+```
+## Loading required package: SGPdata
+```
+
+- Explore the dataset:
+
+
+```r
+summary(sgpData_LONG_COVID)
+```
+
+---
+
+# Status Based Academic Impact
+
+- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.  
+
+- We begin by analyzing ECDFs for Grade 8 mathematics in 2019 versus Grade 8 mathematics in 2021.
+
+
+```r
+require(data.table)
+math_g8_2019 &lt;- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="8" &amp; YEAR=="2019"]
+math_g8_2021 &lt;- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="8" &amp; YEAR=="2021"]
+math_g8_2019_quantiles &lt;- quantile(math_g8_2019$SCALE_SCORE, probs=0:100/100)
+math_g8_2021_quantiles &lt;- quantile(math_g8_2021$SCALE_SCORE, probs=0:100/100)
+```
+
+---
+
+## Academic Impact: Status 
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-5-1.png" width="3184" /&gt;
+
+---
+
+## Create Plot of Status Based Academic Impact 
+
+
+```r
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+```
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Create Plot of Status Based Academic Impact 
+
+
+```r
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+abline(h=c(472, 500, 542), lty=2, col="blue")
+```
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Identifying percent at/above proficient 
+
+- Normally, you will have the percentage of students in a grade/content area at above proficient. 
+- However, they can be derived from the data we are using. 
+- From above, we know that 577 is the proficient cutscore for grade 8, mathematics
+- We can use ECDFs to calculate these
+
+
+```r
+math_g8_2019_ecdf &lt;- ecdf(math_g8_2019$SCALE_SCORE)
+math_g8_2021_ecdf &lt;- ecdf(math_g8_2021$SCALE_SCORE)
+100 - 100*math_g8_2019_ecdf(500)
+```
+
+```
+## [1] 55.26433
+```
+
+```r
+100 - 100*math_g8_2021_ecdf(500)
+```
+
+```
+## [1] 43.5762
+```
+
+---
+
+
+```r
+par(mai=c(0.5, 0.5, 0.25, 0))
+plot(x=50, y=500, type="n", xlim=c(0,100), ylim=c(350, 700), axes=FALSE, main="Status Academic Impact: Mathematics Grade 8")
+points(0:100, math_g8_2019_quantiles, type="l", col="black")
+points(0:100, math_g8_2021_quantiles, type="l", col="red")
+axis(1, at=0:10*10)
+axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
+abline(h=c(472, 500, 542), lty=2, col="blue")
+abline(v=c(55.26, 43.58), col="black", lty=3)
+```
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## To facilitate plotting convert LONG data to WIDE data
+
+
+```r
+require("SGP")
+require("SGPdata")
+SGP::outputSGP(sgpData_LONG_COVID, output.type='WIDE')
+```
+
+---
+
+## Growth Based Academic Impact
+
+
+```r
+load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
+g8_2019_2021_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" &amp; GRADE.2021.MATHEMATICS=="8"]
+g8_2017_2019_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" &amp; GRADE.2019.MATHEMATICS=="8"]
+attach(g8_2019_2021_data)
+plot(SCALE_SCORE.2019.MATHEMATICS, SCALE_SCORE.2021.MATHEMATICS, pch=".", cex=0.5, xlab="Scaled Score 2019: Grade 6", ylab="Scaled Score 2021: Grade 8")
+```
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+```r
+detach(g8_2019_2021_data)
+```
+
+---
+
+## Calculate conditional status splines
+
+
+```r
+require(splines)
+load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
+g8_2019_2021_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" &amp; GRADE.2021.MATHEMATICS=="8"]
+g8_2017_2019_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" &amp; GRADE.2019.MATHEMATICS=="8"]
+attach(g8_2019_2021_data)
+spline_2019_to_2021 &lt;- lm(SCALE_SCORE.2021.MATHEMATICS ~ bs(SCALE_SCORE.2019.MATHEMATICS))
+detach(g8_2019_2021_data)
+
+attach(g8_2017_2019_data)
+spline_2017_to_2019 &lt;- lm(SCALE_SCORE.2019.MATHEMATICS ~ bs(SCALE_SCORE.2017.MATHEMATICS))
+detach(g8_2017_2019_data)
+```
+
+---
+
+
+
+```r
+attach(g8_2019_2021_data)
+plot(SCALE_SCORE.2019.MATHEMATICS, SCALE_SCORE.2021.MATHEMATICS, pch=".", cex=0.5, xlab="Scaled Score 2019: Grade 6", ylab="Scaled Score 2021: Grade 8")
+x_coors &lt;- min(SCALE_SCORE.2019.MATHEMATICS, na.rm=TRUE):max(SCALE_SCORE.2019.MATHEMATICS)
+points(x_coors, predict(spline_2017_to_2019, data.frame(SCALE_SCORE.2017.MATHEMATICS=x_coors)), col="black", type="l")
+points(x_coors, predict(spline_2019_to_2021, data.frame(SCALE_SCORE.2019.MATHEMATICS=x_coors)), col="red", type="l")
+detach(g8_2019_2021_data)
+```
+
+---
+
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-14-1.png" width="3151" /&gt;
+---
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

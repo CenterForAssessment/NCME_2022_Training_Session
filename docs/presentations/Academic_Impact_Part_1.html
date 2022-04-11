@@ -131,6 +131,14 @@ top:1em;right:1em;
 require("SGPdata")
 ```
 
+```
+## Loading required package: SGPdata
+```
+
+```
+## SGPdata 25.2-0.0  (5-26-2021). For help: &gt;help("SGPdata") or visit https://centerforassessment.github.io/SGPdata
+```
+
 
 ```r
 dim(sgpData_LONG_COVID)
@@ -146,10 +154,11 @@ names(sgpData_LONG_COVID)
 ```
 
 ```
-##  [1] "VALID_CASE"                       "CONTENT_AREA"                     "YEAR"                             "ID"                               "GRADE"                           
-##  [6] "SCALE_SCORE"                      "SCALE_SCORE_without_COVID_IMPACT" "ACHIEVEMENT_LEVEL"                "ETHNICITY"                        "FREE_REDUCED_LUNCH_STATUS"       
-## [11] "ELL_STATUS"                       "IEP_STATUS"                       "GENDER"                           "SCHOOL_NUMBER"                    "SCHOOL_NAME"                     
-## [16] "DISTRICT_NUMBER"                  "DISTRICT_NAME"
+##  [1] "VALID_CASE"                       "CONTENT_AREA"                     "YEAR"                             "ID"                              
+##  [5] "GRADE"                            "SCALE_SCORE"                      "SCALE_SCORE_without_COVID_IMPACT" "ACHIEVEMENT_LEVEL"               
+##  [9] "ETHNICITY"                        "FREE_REDUCED_LUNCH_STATUS"        "ELL_STATUS"                       "IEP_STATUS"                      
+## [13] "GENDER"                           "SCHOOL_NUMBER"                    "SCHOOL_NAME"                      "DISTRICT_NUMBER"                 
+## [17] "DISTRICT_NAME"
 ```
 
 ---
@@ -187,10 +196,6 @@ names(sgpData_LONG_COVID)
 tmp_2019_m5 &lt;- subset(sgpData_LONG_COVID, YEAR=="2019" &amp; CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="5")
 tmp_2021_m5 &lt;- subset(sgpData_LONG_COVID, YEAR=="2021" &amp; CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="5")
 mean(tmp_2019_m5$SCALE_SCORE, na.rm=TRUE) - mean(tmp_2021_m5$SCALE_SCORE, na.rm=TRUE)
-```
-
-```
-## [1] 6.530328
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

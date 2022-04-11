@@ -118,7 +118,7 @@ names(sgpData_LONG_COVID)
 
 - We will begin by looking at some basic descriptive summaries to familiarize ourselves with the __sgpData_LONG_COVID__ data set.
 
-```{r eval=TRUE, cache=TRUE}
+```{r eval=FALSE, cache=TRUE}
 tmp_2019_m5 <- subset(sgpData_LONG_COVID, YEAR=="2019" & CONTENT_AREA=="MATHEMATICS" & GRADE=="5")
 tmp_2021_m5 <- subset(sgpData_LONG_COVID, YEAR=="2021" & CONTENT_AREA=="MATHEMATICS" & GRADE=="5")
 mean(tmp_2019_m5$SCALE_SCORE, na.rm=TRUE) - mean(tmp_2021_m5$SCALE_SCORE, na.rm=TRUE)
