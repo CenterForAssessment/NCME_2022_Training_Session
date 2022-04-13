@@ -115,22 +115,25 @@
 <!--/.navbar -->
 
       
-      </header><script src="Missing_Data_Multiple_Imputation_files/header-attrs-2.13/header-attrs.js"></script><div class="row">
+      </header><script src="Missing_Data_Multiple_Imputation_files/header-attrs-2.13/header-attrs.js"></script><link href="Missing_Data_Multiple_Imputation_files/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet">
+<link href="Missing_Data_Multiple_Imputation_files/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet">
+<script src="Missing_Data_Multiple_Imputation_files/anchor-sections-1.1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
       <h1>Multiple Imputation with Simulated Missing Data</h1>
             <h3 class="subtitle">Virtual Training Session<br>NCME Annual Meeting 2022</h3>
                         <h4 class="author">Adam Van Iwaarden</h4>
             
-            <h4 class="date">April 12th, 2022</h4>
+            <h4 class="date">April 13th, 2022</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="introduction" class="section level1">
+<div id="introduction" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction<a href="#introduction" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
 <p>While planning and discussing the analysis of student assessment data with our state partners in the spring of 2021, The Center for Assessment received varying anecdotal reports of what might be expected in terms of reduced test participation due to the ongoing COVID-19 pandemic. The only certainty afforded to education state department staff, policy makers and data analysts alike was that the typical regime of census student testing was unlikely and that new methods for confronting missing data problems would be required in short time. In preparation for these unprecedented circumstances, we first conducted simulations to produce varying degrees and patterns of missing data that would then allow for a rigorous exploration of methods to address the problems in data analysis and questions in reporting results to stakeholders and the public.</p>
 <p>This vignette is an attempt to reconstruct our early efforts to understand the impact that missing data could have on the Student Growth Percentiles (SGP) analyses we conduct annually in cooperation with state departments of education (typically for accountability purposes), as well as the methodological vetting processes we used to eventually select a multiple imputation approach to address these problems. Although these initial efforts led to the development of customized <code>R</code> functions included in the <code>cfaTools</code> package that allowed us to apply these analytic techniques universally to our state clients, the functions used in this exercise are restricted to the widely available and well documented functions and packages upon which our functions are based. The data management and bookkeeping steps included in this document and supporting <code>R</code> code follow those we used in our data analysis workflow over the past year. Specifically, the section on missing data corresponds to the <a href="https://centerforassessment.github.io/cfaTools/reference/amputeScaleScore.html"><code>amputeScaleScore</code> function</a> to simulate, explore and analyze missing data patterns<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, and the multiple imputation exercises mirror what is accomplished in the <a href="https://centerforassessment.github.io/cfaTools/reference/imputeScaleScore.html"><code>imputeScaleScore</code> function</a>.</p>
 <p>As with our early simulation studies, this training vignette uses the <code>sgpData_LONG_COVID</code> data available from the <a href="https://github.com/CenterForAssessment/SGPdata"><code>SGPData</code></a> package. This simulated data conforms to the naming and structural conventions <a href="https://centerforassessment.github.io/SGPdata/reference/index.html#section-data-sets-for-higher-level-sgp-functions">required for data</a> analysis using the <a href="https://github.com/CenterForAssessment/SGP">SGP package</a>.</p>
@@ -152,9 +155,10 @@
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">require</span>(gghighlight)</span></code></pre></div>
 <p>Before getting into data simulation and analysis, however, we provide a brief introduction to potential problems missing data poses for statistical analysis and interpretation of student achievement and growth. Resources we have found useful are also provided.</p>
 </div>
-<div id="the-missing-data-problem" class="section level1">
+<div id="the-missing-data-problem" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#the-missing-data-problem" class="anchor" aria-hidden="true"></a>The Missing Data Problem</h1>
+<a href="#the-missing-data-problem" class="anchor" aria-hidden="true"></a>The Missing Data Problem<a href="#the-missing-data-problem" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
 <p>The issues missing data presents to the analysis, interpretation and reporting of partially observed data are manifold: biased parameter estimates, unrepresentative samples, complication of analytic methods and procedures, and reduced power in statistical tests. Nearly all standard statistical methods assume perfect and complete variables are used, yet even a few unobserved data points can be problematic.</p>
 <p>Over the past two decades, researchers in education have benefited from the revolving door of state and federal accountability policies that required census student assessment. As a result, missing data problems, and potential solutions, had received little attention in our field. The luxury of ignoring missing data and student participation rates came to an abrupt end at the onset of the COVID-19 pandemic, and the need to consider the problematic nature of the data will persist into the foreseeable future as we try to gauge the full impact of the pandemic and the nature of student learning recovery. To date the missing data problem in state-level education is two fold: the (nearly) universal absence of data in 2020 after state assessment administrations were cancelled, and the varied levels of student participation (both within and between states).</p>
 <p>The absence of 2020 data has required universal approaches to data analysis in 2021; namely ignoring this gap in longitudinal analyses (e.g., skip-year student growth). The varied and complex nature of student participation in 2021, although not as extensive, complicates the 2021 analyses and investigations of pandemic impact and will require on-going attention as recovery is monitored and accountability requirements are re-instituted.</p>
@@ -176,9 +180,10 @@
 </li>
 <li>Low participation will continue to impact the ability to monitor student recovery, appropriate educational resources where most needed and make complete, accurate and fair accountability decisions for teachers, schools, districts, etc. going forward.</li>
 </ul>
-<div id="the-case-for-multiple-imputation-methods" class="section level2">
+<div id="the-case-for-multiple-imputation-methods" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#the-case-for-multiple-imputation-methods" class="anchor" aria-hidden="true"></a>The case for multiple imputation methods</h2>
+<a href="#the-case-for-multiple-imputation-methods" class="anchor" aria-hidden="true"></a>The case for multiple imputation methods<a href="#the-case-for-multiple-imputation-methods" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>After the cancellation of spring statewide testing in March and April of 2020 we began working with states to investigate the feasibility of calculating student growth despite the 2020 data gap (i.e. skip-year student growth percentiles). Over 2020 we conducted analyses tailored to each states’ context using historical data, coming to the conclusion that skip-year growth calculations were good approximations to those obtained from full calculations. When it became clear that we would need additional tools to address low participation, we considered several alternatives and options to augment the analysis of the observed, imperfect, data (“pairwise deletion” of missing data). Ultimately multiple imputation (MI) was chosen over other alternatives such as maximum likelihood regression approaches or propensity score weighting/matching (although the latter can be used in tandem with MI). The reasons for this choice include:</p>
 <ul>
 <li>Rather than substituting a single value for each missing data point, multiple plausible values are generated using the observed data (including its variability and uncertainty).</li>
@@ -187,13 +192,15 @@
 </ul>
 </div>
 </div>
-<div id="simulating-missing-data" class="section level1">
+<div id="simulating-missing-data" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#simulating-missing-data" class="anchor" aria-hidden="true"></a>Simulating Missing Data</h1>
+<a href="#simulating-missing-data" class="anchor" aria-hidden="true"></a>Simulating Missing Data<a href="#simulating-missing-data" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
 <p>Using data simulations is a useful tool for recognizing and anticipating missing data patterns, preparing for potential problems that might occur and understanding the utility and limitations of certain statistical methods. By starting with a complete simulated data set, removing cases systematically and then performing statistical analyses (MI and subsequent analyses of interest), one can compare the “true” results to those from the missing/observed and imputed data. This section of the training will deal with taking a complete data set and generating missing data patterns similar to those observed in some states in 2021. In the subsequent section we take this data and apply MI in an attempt to reconstruct the complete data structure before comparing several post-imputation analyses using the data in all three states of completion.</p>
-<div id="data-retrieval-and-working-directory-setup" class="section level2">
+<div id="data-retrieval-and-working-directory-setup" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#data-retrieval-and-working-directory-setup" class="anchor" aria-hidden="true"></a>Data retrieval and working directory setup</h2>
+<a href="#data-retrieval-and-working-directory-setup" class="anchor" aria-hidden="true"></a>Data retrieval and working directory setup<a href="#data-retrieval-and-working-directory-setup" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>For this part of the training we will use the <code>sgpData_LONG_COVID</code> object from the <code>SGPdata</code> package, which contains simulated data from 2016 to 2023. The data follows the same format as the example <a href="https://sgp.io/articles/SGP_Data_Preparation.html#long-data-format-sgpdata_long">long data</a> from the <code>SGP</code> package. It includes 7 years of annual assessment data in two content areas (ELA and Mathematics) and is missing 2020 data to help users model COVID related interruptions to student status and growth. The data comes with a “built-in” impact in 2021 related to the pandemic (although an unperturbed version - <code>"SCALE_SCORE_without_COVID_IMPACT"</code> is also available so that different impact scenarios can be modeled).</p>
 <p>This data set contains only “complete” records for students in the longitudinal form in that there are no <code>NA</code> values in any variable. However, as will be discussed below, there are students who repeat grades levels, drop out of the system, have records with gaps between years, etc. In this regard the data does include missing records, particularly for analyses conducted on cross-sectional (wide) data.</p>
 <p>A subset of <code>sgpData_LONG_COVID</code> restricted to the 2021 7<sup>th</sup> grade ELA cohort is used throughout this vignette. Our interest in this data will be to take a complete subset of the data and create missing data patterns only in the student score variables. No demographic, school/district identifiers, etc. will be made missing. These would be similar situations we have dealt with in which students are known to be enrolled in a school, but were not tested for any number of reasons (illness, refusal, school context etc.). This information is critical in being able to later use imputed data to estimate school and sub-group level impact of the COVID pandemic.</p>
@@ -213,9 +220,10 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wide_data <span class="ot">&lt;-</span> wide_data[<span class="sc">!</span>(<span class="fu">is.na</span>(Z_SCORE<span class="fl">.2018</span>) <span class="sc">|</span> <span class="fu">is.na</span>(Z_SCORE<span class="fl">.2019</span>) <span class="sc">|</span> <span class="fu">is.na</span>(Z_SCORE<span class="fl">.2021</span>)),]</span></code></pre></div>
 <p>If we compare the number of rows in <code>wide_data</code> before and after this filter, we see that around 32% of the data is now removed. We will use that as a rough target for added missingness going forward.</p>
 </div>
-<div id="the-ampute-function" class="section level2">
+<div id="the-ampute-function" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#the-ampute-function" class="anchor" aria-hidden="true"></a>The <code>ampute</code> function</h2>
+<a href="#the-ampute-function" class="anchor" aria-hidden="true"></a>The <code>ampute</code> function<a href="#the-ampute-function" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>The <code>mice::ampute</code> function was developed to provide a systematic process for simulating missing data. A user can specify a number of parameters including the proportion, patterns and factors (observed variables) that contribute to missing data. The author of this function, Rianne Schouten, provides an excellent vignette <a href="https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#missingness_proportion_per_variable">online.</a></p>
 <p>We will generate missing data based solely on prior achievement at the student and school aggregate levels. Demographic and other variables could also be factored in as desired. For example, if it is assumed that students in urban areas may be more likely to be missing, school size could be included as a proxy for this.</p>
 <p>As a first step, we take a subset of the achievement variables from the <code>wide_data</code> object and create a school aggregate to use with the <code>ampute</code> function to simplify the following steps.</p>
@@ -229,9 +237,10 @@
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    Summarize 2021 students' prior (2019) scores for their 2021 schools</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ampute_subset[, MEAN_PRIOR_Z <span class="sc">:</span><span class="er">=</span> <span class="fu">mean</span>(Z_SCORE<span class="fl">.2019</span>), by <span class="ot">=</span> <span class="st">"SCHOOL_NUMBER"</span>]</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ampute_subset[, <span class="fu">grep</span>(<span class="st">"SCHOOL_NUMBER"</span>, <span class="fu">names</span>(ampute_subset)) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span></code></pre></div>
-<div id="using-ampute-funtion-defaults" class="section level3">
+<div id="using-ampute-funtion-defaults" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#using-ampute-funtion-defaults" class="anchor" aria-hidden="true"></a>Using <code>ampute</code> funtion defaults</h3>
+<a href="#using-ampute-funtion-defaults" class="anchor" aria-hidden="true"></a>Using <code>ampute</code> funtion defaults<a href="#using-ampute-funtion-defaults" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>To illustrate an <code>ampute</code> function use case we begin by feeding the data and examining the results “out-of-the-box” using the defaults.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">##    Run `ampute` out-of-the-box and explore results</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>test.result <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">ampute</span>(ampute_subset)</span>
@@ -254,9 +263,10 @@
 ## 4            1            1            1            0</code></pre>
 <p>There are several things to note about the data amputation results here. The default proportion of missing cases (<code>prop = 0.5</code>) is higher than what we want to replicate (~<code>0.325</code>). In the <code>md.pattern</code> plot we see that the default missing patterns (red squares indicate missing cases are present) include the aggregate school measures we created. This makes no sense in our context - we only want missing values in the student-level variables. Also, there are only patterns in which one variable is missing per row, where we would actually like to see patterns where students may be missing multiple years of data (for example, only having data for 2021).</p>
 </div>
-<div id="missing-data-patterns" class="section level3">
+<div id="missing-data-patterns" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#missing-data-patterns" class="anchor" aria-hidden="true"></a>Missing data patterns</h3>
+<a href="#missing-data-patterns" class="anchor" aria-hidden="true"></a>Missing data patterns<a href="#missing-data-patterns" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>To customize the patterns that are included, we will supply a customized <code>data.frame</code> to the <code>patterns</code> argument. We will also specify the proportion of missing values we want to achieve (overall) in the data.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my.patterns <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">t</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>               <span class="co"># Some we want from the default</span></span>
@@ -286,9 +296,10 @@
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>test.result<span class="sc">$</span>freq</span></code></pre></div>
 <pre><code>## [1] 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667</code></pre>
 </div>
-<div id="frequency-of-patterns" class="section level3">
+<div id="frequency-of-patterns" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#frequency-of-patterns" class="anchor" aria-hidden="true"></a>Frequency of patterns</h3>
+<a href="#frequency-of-patterns" class="anchor" aria-hidden="true"></a>Frequency of patterns<a href="#frequency-of-patterns" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>The plot produced now shows that we have more interesting patterns of missing data. However, if we look at the bottom row of numbers, we see that the frequency of missing data is roughly equal for each variable. The output from <code>test.result$freq</code> shows that each pattern is missing at the same rate, which does not match what we want to simulate pre-pandemic or in 2021.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my.freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>,   <span class="co">#  only missing 2018 - fairly common previously</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             <span class="fl">0.05</span>,  <span class="co">#  only missing 2019 - less common</span></span>
@@ -309,9 +320,10 @@
 ## 187             1            0            0            1    2
 ##                 0          435          728         1481 2644</code></pre>
 </div>
-<div id="weighting-of-factors-related-to-missing-data-patterns" class="section level3">
+<div id="weighting-of-factors-related-to-missing-data-patterns" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#weighting-of-factors-related-to-missing-data-patterns" class="anchor" aria-hidden="true"></a>Weighting of factors related to missing data patterns</h3>
+<a href="#weighting-of-factors-related-to-missing-data-patterns" class="anchor" aria-hidden="true"></a>Weighting of factors related to missing data patterns<a href="#weighting-of-factors-related-to-missing-data-patterns" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>For the final step in producing interesting patterns of missing data, we will provide a custom matrix of factor weights. For example, here we will simulate missingness that is correlated with (low) achievement and also assume that these factors are compounded by the school level concentration of low achievement.</p>
 <p>The default weight matrix is identical to the pattern matrix, so the first row of the weight matrix corresponds to the pattern specified in the first row of the pattern matrix. Here a <code>0</code> means a variable contributes nothing to the missing data pattern. Weights are relative and can be either integers or values between 0 and 1. For example one can use <code>c(4, 1)</code> to specify that the first variable contributes 4 times as much weight as the second, or use <code>c(1, 0.25)</code> for the same effect.</p>
 <p>The weight matrix below allows us to produce missing data that includes a variety of factors and weights ranging from “missing completely at random” (MCAR) to “missing at random” (MAR) and “missing not at random” (MNAR, i.e. missing cases depend on the unobserved values of the variable in question rather than other variables observed in the data). Weights can also be positive or negative. Positive values mean that variables with a higher weighted sum-score have a higher probability of being made missing and vice-versa. In this example, we want lower achieving students/schools to have a higher probability of being amputed, so we will multiply the matrix by <code>-1</code> - making all but one value negative in the final weight matrix.</p>
@@ -359,9 +371,10 @@
 <pre><code>## [1] 0.6762291</code></pre>
 </div>
 </div>
-<div id="missing-data-explorationvisualization" class="section level2">
+<div id="missing-data-explorationvisualization" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#missing-data-explorationvisualization" class="anchor" aria-hidden="true"></a>Missing data exploration/visualization</h2>
+<a href="#missing-data-explorationvisualization" class="anchor" aria-hidden="true"></a>Missing data exploration/visualization<a href="#missing-data-explorationvisualization" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>With a promising set of amputed data, we can further evaluate it to make sure it looks like what we wanted. In our assumptions, we expect to see more missing data for students with lower 2019 scale scores. The following visualizations from the <code>VIM</code> package are helpful in exploring missing data relationships. See the VIM package for more context on these plots. In general, blue means observed data, red means missing. A good introduction is given <a href="https://www.datacamp.com/community/tutorials/visualize-data-vim-package">here</a>.</p>
 <p>The first <code>VIM</code> plot produced is a set of histograms that compares missing data patterns in 2018 to 2019 with those from 2019 to 2021. Here we see that we have been (quite!) successful in introducing a relationship between prior achievement and missingness. The 2019 missing cases are more-or-less randomly distributed given 2018 observed scores, but the 2021 missing case distribution is heavily concentrated in lower prior score observations.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">###   Missing data visualizations with VIM</span></span>
@@ -387,14 +400,16 @@
 <p><img src="Missing_Data_Multiple_Imputation_files/figure-html/VIM_comp_v_amp-1.svg" width="466.666666666667" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<div id="multiple-imputation" class="section level1">
+<div id="multiple-imputation" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#multiple-imputation" class="anchor" aria-hidden="true"></a>Multiple Imputation</h1>
+<a href="#multiple-imputation" class="anchor" aria-hidden="true"></a>Multiple Imputation<a href="#multiple-imputation" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
 <p>Multiple imputation (MI) is a simulation-based procedure. Its purpose is not to re-create the (true) individual missing values, but to achieve valid statistical inference in the presence of missing data (Schafer, 1997). MI methods use information from the observed data to generate a set of plausible values for the missing observations in the data. This procedure is repeated many times to account for sampling error that arises when generating these values, and model parameters are pooled across the imputed data sets (Enders, 2010; Fox &amp; Weisberg, 2018). As Fox and Weisberg (2018) write, MI “takes into account not only uncertainty due to residual variation - that is, the inability to predict missing values without error from the observed data (e.g., by sampling from the estimated error distribution for a continuous variable or sampling from the estimated conditional probability distribution of a factor) - but also uncertainty in the parameter estimates used to obtain the predictions (by sampling from the estimated distribution of the parameters of the imputation model)” (p. 3).</p>
 <p>There are numerous MI methods available, largely differentiated by the model used to generate the imputed values. MI methods can be broadly grouped into those that use joint modeling (JM) or fully conditional specification (FCS). JM assumes that the data come from a multivariate distribution and imputations are drawn from a fitted distribution (typically multivariate normal). FCS, also known as MI with chained equations (MICE), is a semi-parametric approach that imputes multivariate missing data one variable at a time in an iterative fashion for each incomplete variable. It is parametric in that each variable can potentially have a different imputation model with a set of predictors that explain the missing data. It is non-parametric in that the form (e.g. linear) of the imputation model is specified depending on the type of variable (binary, count, ordinal, continuous, etc.). Trade offs between the two types include better theoretical underpinnings in JM and flexibility while preserving unique features of the data with FCS (Van Buuren, 2018).</p>
-<div id="the-three-steps-of-multiple-imputation" class="section level2">
+<div id="the-three-steps-of-multiple-imputation" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#the-three-steps-of-multiple-imputation" class="anchor" aria-hidden="true"></a>The three steps of multiple imputation</h2>
+<a href="#the-three-steps-of-multiple-imputation" class="anchor" aria-hidden="true"></a>The three steps of multiple imputation<a href="#the-three-steps-of-multiple-imputation" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>Regardless of the chosen algorithm(s) or modeling approach, the typical MI workflow can be reduced to three steps in which information from the observed data is used to generate parameter estimates:</p>
 <ul>
 <li>
@@ -407,9 +422,10 @@
 <p>The figure below (Figure 5.1 in Van Buuren, 2018) provides a nice visual synopsis of the MI workflow.</p>
 <p><img src="ch01-miflow-1.png" width="75%" style="display: block; margin: auto;"></p>
 <p>In the context of learning loss analyses, we have used MI to estimate mean scale score and baseline SGP values to draw comparisons between pre- and post-pandemic test results. Notably, such comparisons are not aimed at accountability initiatives, but rather to provide states, districts and schools with a better understanding of how student learning was impacted. Such information can inform how states, districts and schools can better support students moving forward by assessing their recovery.</p>
-<div id="choosing-an-imputation-strategy-for-step-1" class="section level3">
+<div id="choosing-an-imputation-strategy-for-step-1" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#choosing-an-imputation-strategy-for-step-1" class="anchor" aria-hidden="true"></a>Choosing an imputation strategy for Step 1</h3>
+<a href="#choosing-an-imputation-strategy-for-step-1" class="anchor" aria-hidden="true"></a>Choosing an imputation strategy for Step 1<a href="#choosing-an-imputation-strategy-for-step-1" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>In the simulation studies and MI method vetting process the Center for Assessment conducted in late spring 2021, at least eight MI algorithms were applied and compared. These included:</p>
 <ul>
 <li>One-level predictive mean matching (<code>mice::mice.impute.pmm</code>)</li>
@@ -427,9 +443,10 @@
 <p>In the following sections we again re-create steps taken in our initial investigations in the spring of 2021 to evaluate a few of the available MI methods.</p>
 </div>
 </div>
-<div id="multiple-imputation-with-simulated-missing-data" class="section level2">
+<div id="multiple-imputation-with-simulated-missing-data" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#multiple-imputation-with-simulated-missing-data" class="anchor" aria-hidden="true"></a>Multiple imputation with simulated missing data</h2>
+<a href="#multiple-imputation-with-simulated-missing-data" class="anchor" aria-hidden="true"></a>Multiple imputation with simulated missing data<a href="#multiple-imputation-with-simulated-missing-data" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>Continuing where we left off with the simulation of missing data, we will first select the factors we want to include in our imputation model(s). We will feign ignorance of the underlying missing data generating process for now and specify the use of student level achievement, FRL status as well as school level aggregates of these factors. Again, the only variables with missing data in them are the student level (standardized) scale scores, so these will be the only variables being imputed. These would be similar to students who were known to be enrolled in a school, but were not tested.</p>
 <p>Note we are also keeping our complete (“true”) score values in this subset. These will NOT be used for imputation (cheating!), but we want to keep them in our data set for subsequent analyses. This can be done for any number of variables of interest (e.g., demographics, indicators of mode of instruction, etc.), but they must be given special attention to ensure they are/not used as imputation predictors as desired.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>impute.factors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SCHOOL_NUMBER"</span>, <span class="st">"Z_SCORE"</span>, <span class="st">"FRL"</span>) <span class="co"># paste(c("ID", "COMPLETE_Z", impute.factors), collapse="|")</span></span>
@@ -462,9 +479,10 @@
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>impute_subset[, SCHOOL_NUMBER <span class="sc">:</span><span class="er">=</span> <span class="fu">as.character</span>(SCHOOL_NUMBER)]</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>my.predMtrx[<span class="st">"SCHOOL_NUMBER"</span>, <span class="fu">grep</span>(<span class="st">"^Z_SCORE"</span>, <span class="fu">names</span>(my.methods))] <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
 </div>
-<div id="step-1---data-imputation" class="section level2">
+<div id="step-1---data-imputation" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#step-1---data-imputation" class="anchor" aria-hidden="true"></a>Step 1 - data imputation</h2>
+<a href="#step-1---data-imputation" class="anchor" aria-hidden="true"></a>Step 1 - data imputation<a href="#step-1---data-imputation" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>We are now ready to create our first set of imputed data.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>imputed_results <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">mice</span>(<span class="at">data =</span> impute_subset,</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">method =</span> my.methods,</span>
@@ -479,9 +497,10 @@
 <p>The final diagnostic plot is a custom set of scatter plots that allow us to compare the bivariate distribution of the complete, imputed and observed data (top to bottom). Plots in the left column are the prior years (2018 and 2019) and those on the right are for 2019 and 2021.</p>
 <p><img src="Missing_Data_Multiple_Imputation_files/figure-html/pmm_scat-1.svg" width="666.666666666667" style="display: block; margin: auto;"></p>
 </div>
-<div id="step-23---imputation-analysis-and-results-pooling" class="section level2">
+<div id="step-23---imputation-analysis-and-results-pooling" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#step-23---imputation-analysis-and-results-pooling" class="anchor" aria-hidden="true"></a>Step 2/3 - imputation analysis and results pooling</h2>
+<a href="#step-23---imputation-analysis-and-results-pooling" class="anchor" aria-hidden="true"></a>Step 2/3 - imputation analysis and results pooling<a href="#step-23---imputation-analysis-and-results-pooling" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>We will now conduct <code>M</code> sets of analyses and one set of pooled results for the imputed data. We also run identical analyses using both the complete and observed data. We proceed by first collecting the imputations into a <code>list</code> object and converting each of those as well as the <code>wide_data</code> back into longitudinal form.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">###   Collect all imputation results in a list length = M</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> miceadds<span class="sc">::</span><span class="fu">mids2datlist</span>(imputed_results)</span>
@@ -489,9 +508,10 @@
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="do">###   Convert data (complete, missing, and imputed) to long format</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Missing_Data_Multiple_Imputation/Helper_Scripts/Data_Retrieval_for_Analysis.R"</span>)</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="do">##    Returns objects `long_complete`, `long_amputed` and `res_long`</span></span></code></pre></div>
-<div id="linear-mixed-effects-model" class="section level3">
+<div id="linear-mixed-effects-model" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#linear-mixed-effects-model" class="anchor" aria-hidden="true"></a>Linear mixed effects model</h3>
+<a href="#linear-mixed-effects-model" class="anchor" aria-hidden="true"></a>Linear mixed effects model<a href="#linear-mixed-effects-model" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>The first post-imputation analysis we will run is a linear mixed effects model. This has been selected because it is a fairly interesting, and popular, model for analyzing longitudinal data for students nested within schools. It also provides us with results that have well documented and operationalized procedures for pooling results. Specifically, in this exercise we submit that the parameter of interest is a fixed effect estimate for COVID impact. We can easily get a pooled estimate of this parameter along with standard errors and t values.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>frmla <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"Z_SCORE ~ YEAR + COVID_IMPACT*FRL + (COVID_IMPACT | SCHOOL_NUMBER/ID)"</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>lmer.ctl <span class="ot">&lt;-</span> <span class="fu">lmerControl</span>(<span class="at">check.conv.grad =</span> <span class="fu">.makeCC</span>(<span class="st">"warning"</span>, <span class="fl">0.02</span>, <span class="cn">NULL</span>))</span>
@@ -523,9 +543,10 @@
 ##   -17.61  -17.57  -17.83 |
 ##     3.74    3.53     3.9 |</code></pre>
 </div>
-<div id="baseline-student-growth-percentiles" class="section level3">
+<div id="baseline-student-growth-percentiles" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#baseline-student-growth-percentiles" class="anchor" aria-hidden="true"></a>Baseline student growth percentiles</h3>
+<a href="#baseline-student-growth-percentiles" class="anchor" aria-hidden="true"></a>Baseline student growth percentiles<a href="#baseline-student-growth-percentiles" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <p>Student growth percentiles, being quantities associated with each individual student, can be easily summarized across numerous grouping indicators to provide summary results regarding growth. <strong><em>Cohort</em></strong> referenced percentiles, being annually normed across all students in the state, the median of all student growth percentiles in any grade is 50 when we have perfect data fit. The median of a collection of growth percentiles is used as the measure of central tendency to summarize the distribution as a single number. Median growth percentiles well below 50 represent growth less than the state “average” and median growth percentiles well above 50 represent growth in excess of the state “average”.</p>
 <p>It is important to note how, at the entire state level, the <em>normative</em> growth information returns very little information. What the results indicate is that a typical (or average) student in the state demonstrates 50th percentile growth. That is, a “typical students” demonstrate “typical growth”. The power of the normative results follows when subgroups are examined (e.g., schools, district, ethnic groups, etc.). Examining subgroups in terms of the median of their student growth percentiles, it is then possible to investigate why some subgroups display lower/higher student growth than others. Moreover, because the subgroup summary statistic (i.e., the median) is composed of many individual student growth percentiles, one can break out the result and further examine the distribution of individual results.</p>
 <p><strong><em>Baseline</em></strong> SGPs provide us with a way to look at normative growth through another lens. Rather than considering a single year’s cohort, baseline SGPs are referenced against a cohort of interest. This could be a “super-cohort” comprised of several years of students linked by common course/grade progressions, or a single particular cohort. In the COVID impact analyses, the 2019 cohorts were used to establish the baselines. Baseline comparisons allow us to examine whether or not the system as a whole might be improving (or declining) over time relative to the established baseline. A major assumption required here is that the scale scores are well anchored. If this assumption does not hold, then any deviation from “typical” growth may be purely an artifact of the test scaling procedure.</p>
@@ -556,9 +577,9 @@
 <p>We now demonstrate how to change the imputation method and re-run the analyses.</p>
 </div>
 </div>
-<div id="data-imputation-with-2l-pan" class="section level2">
+<div id="data-imputation-with-2l-pan" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#data-imputation-with-2l-pan" class="anchor" aria-hidden="true"></a>Data imputation with <code>2l.pan</code>
+<a href="#data-imputation-with-2l-pan" class="anchor" aria-hidden="true"></a>Data imputation with <code>2l.pan</code><a href="#data-imputation-with-2l.pan" class="anchor-section" aria-label="Anchor link to header"></a>
 </h2>
 <p>In order to change the imputation method, we will repeat the steps after we set up the <code>impute_subset</code> object. This can be an iterative process changing imputation methods, predictor factors or any other number of parameters. Here we will use the cross-sectional model (students nested within schools) that was found to be superior for correcting missing data bias in school mean/median status and growth. We will also remove <code>FRL</code> and <code>PERCENT_INST_FRL</code> from the predictors given that we know those factors were not part of our missing data generation process (and may have contributed to over-estimating the impact from other imputation method comparisons not shown here).</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">###   Specify imputation parameters for `mice::mice`</span></span>
@@ -584,9 +605,10 @@
 <span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>my.predMtrx[, <span class="st">"FRL"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>my.predMtrx[, <span class="st">"PERCENT_INST_FRL"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
 </div>
-<div id="step-1b---create-new-imputed-results" class="section level2">
+<div id="step-1b---create-new-imputed-results" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#step-1b---create-new-imputed-results" class="anchor" aria-hidden="true"></a>Step 1b - create new imputed results</h2>
+<a href="#step-1b---create-new-imputed-results" class="anchor" aria-hidden="true"></a>Step 1b - create new imputed results<a href="#step-1b---create-new-imputed-results" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>We are now ready to create our SECOND set of imputed data.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>imputed_results <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">mice</span>(<span class="at">data =</span> impute_subset,</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">method =</span> my.methods,</span>
@@ -600,9 +622,9 @@
 <p><img src="Missing_Data_Multiple_Imputation_files/figure-html/l2pan_dense-1.svg" width="666.666666666667" style="display: block; margin: auto;"></p>
 <p><img src="Missing_Data_Multiple_Imputation_files/figure-html/l2pan_scat-1.svg" width="666.666666666667" style="display: block; margin: auto;"></p>
 </div>
-<div id="step-23---imputation-analysis-and-pooling-with-2l-pan" class="section level2">
+<div id="step-23---imputation-analysis-and-pooling-with-2l-pan" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#step-23---imputation-analysis-and-pooling-with-2l-pan" class="anchor" aria-hidden="true"></a>Step 2/3 - imputation analysis and pooling with <code>2l.pan</code>
+<a href="#step-23---imputation-analysis-and-pooling-with-2l-pan" class="anchor" aria-hidden="true"></a>Step 2/3 - imputation analysis and pooling with <code>2l.pan</code><a href="#step-23---imputation-analysis-and-pooling-with-2l.pan" class="anchor-section" aria-label="Anchor link to header"></a>
 </h2>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">###   Collect all imputation results in a list length = M</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> miceadds<span class="sc">::</span><span class="fu">mids2datlist</span>(imputed_results)</span>
@@ -610,9 +632,10 @@
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="do">###   Convert data (complete, missing, and imputed) to long format</span></span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Missing_Data_Multiple_Imputation/Helper_Scripts/Data_Retrieval_for_Analysis.R"</span>)</span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="do">##    Returns objects `long_complete`, `long_amputed` and `res_long`</span></span></code></pre></div>
-<div id="linear-mixed-effects-model-1" class="section level3">
+<div id="linear-mixed-effects-model-1" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#linear-mixed-effects-model-1" class="anchor" aria-hidden="true"></a>Linear mixed effects model</h3>
+<a href="#linear-mixed-effects-model-1" class="anchor" aria-hidden="true"></a>Linear mixed effects model<a href="#linear-mixed-effects-model-1" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>frmla <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"Z_SCORE ~ YEAR + COVID_IMPACT*FRL + (COVID_IMPACT | SCHOOL_NUMBER/ID)"</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>lmer.ctl <span class="ot">&lt;-</span> <span class="fu">lmerControl</span>(<span class="at">check.conv.grad =</span> <span class="fu">.makeCC</span>(<span class="st">"warning"</span>, <span class="fl">0.02</span>, <span class="cn">NULL</span>))</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -662,9 +685,10 @@
 ##   -17.61  -17.57  -17.32 |
 ##     3.74    3.53    3.97 |</code></pre>
 </div>
-<div id="baseline-student-growth-percentiles-1" class="section level3">
+<div id="baseline-student-growth-percentiles-1" class="section level3 hasAnchor">
 <h3 class="hasAnchor">
-<a href="#baseline-student-growth-percentiles-1" class="anchor" aria-hidden="true"></a>Baseline student growth percentiles</h3>
+<a href="#baseline-student-growth-percentiles-1" class="anchor" aria-hidden="true"></a>Baseline student growth percentiles<a href="#baseline-student-growth-percentiles-1" class="anchor-section" aria-label="Anchor link to header"></a>
+</h3>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">##   Run Baseline SGP analyses using complete, missing (observed), and imputed data</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"Missing_Data_Multiple_Imputation/Helper_Scripts/SGP_Baseline_Analyses.R"</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="do">##    Returns `Complete_SGP`, `Missing_SGP`, `Imputed_SGP_Data` and `SGP_Imputation_Summaries`.</span></span></code></pre></div>
@@ -678,27 +702,31 @@
 </div>
 </div>
 </div>
-<div id="things-to-consider" class="section level1">
+<div id="things-to-consider" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#things-to-consider" class="anchor" aria-hidden="true"></a>Things to consider:</h1>
+<a href="#things-to-consider" class="anchor" aria-hidden="true"></a>Things to consider:<a href="#things-to-consider" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
 <ul>
 <li>We have only looked at a cohort that had prior scores available. The situation is more difficult when no prior achievement information is available</li>
 <li>We are only looking at 2021 results/model output. We would need to have some comparable results from 2019 in order to make meaningful assessment of COVID impact (particularly at the school level)</li>
 </ul>
 </div>
-<div id="citations-and-references" class="section level1">
+<div id="citations-and-references" class="section level1 hasAnchor">
 <h1 class="hasAnchor">
-<a href="#citations-and-references" class="anchor" aria-hidden="true"></a>Citations and References</h1>
-<div id="missing-data-simulation" class="section level2">
+<a href="#citations-and-references" class="anchor" aria-hidden="true"></a>Citations and References<a href="#citations-and-references" class="anchor-section" aria-label="Anchor link to header"></a>
+</h1>
+<div id="missing-data-simulation" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#missing-data-simulation" class="anchor" aria-hidden="true"></a>Missing Data Simulation</h2>
+<a href="#missing-data-simulation" class="anchor" aria-hidden="true"></a>Missing Data Simulation<a href="#missing-data-simulation" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>Brand, Jaap. 1999. “Development, Implementation and Evaluation of Multiple Imputation Strategies for the Statistical Analysis of Incomplete Data Sets.” PhD thesis.</p>
 <p>Schouten, Rianne Margaretha, Peter Lugtig, and Gerko Vink. 2018. “Generating Missing Values for Simulation Purposes: A Multivariate Amputation Procedure.” Journal of Statistical Computation and Simulation 88 (15): 2909–30.</p>
 <p>Schouten, Rianne Margaretha, and Gerko Vink. 2021. “The Dance of the Mechanisms: How Observed Information Influences the Validity of Missingness Assumptions.” Sociological Methods &amp; Research 50 (3): 1243–58.</p>
 </div>
-<div id="multiple-imputation-1" class="section level2">
+<div id="multiple-imputation-1" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#multiple-imputation-1" class="anchor" aria-hidden="true"></a>Multiple Imputation</h2>
+<a href="#multiple-imputation-1" class="anchor" aria-hidden="true"></a>Multiple Imputation<a href="#multiple-imputation-1" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>Demirtas, H. (2004). Simulation driven inferences for multiply imputed longitudinal datasets. Statistica neerlandica, 58(4), 466-482. <a href="https://doi.org/10.1111/j.1467-9574.2004.00271.x" class="uri">https://doi.org/10.1111/j.1467-9574.2004.00271.x</a></p>
 <p>Enders, C. K. (2010). Applied missing data analysis. New York, NY: The Guilford Press.</p>
 <p>Fox, J. &amp; Weisberg, S. (2018). Multiple imputation of missing data. Appendix of An R companion to applied regression, third edition. Thousand Oaks, CA: Sage Publications, Inc.</p>
@@ -712,9 +740,10 @@
 <p>Vink, G., &amp; Van Buuren, S. (2014). Pooling multiple imputations when the sample happens to be the population. arXiv Pre-Print 1409.8542.</p>
 <p>Zhao, J. H., &amp; Schafer, J. L. (2018). pan: Multiple imputation for multivariate panel or clustered data. R package version 1.6.</p>
 </div>
-<div id="data-and-analytics" class="section level2">
+<div id="data-and-analytics" class="section level2 hasAnchor">
 <h2 class="hasAnchor">
-<a href="#data-and-analytics" class="anchor" aria-hidden="true"></a>Data and Analytics</h2>
+<a href="#data-and-analytics" class="anchor" aria-hidden="true"></a>Data and Analytics<a href="#data-and-analytics" class="anchor-section" aria-label="Anchor link to header"></a>
+</h2>
 <p>Bates, D., Maechler, M., Bolker, B., &amp; Walker, S. (2015). Fitting linear mixed-effects models using lme4. <em>Journal of Statistical Software, 67</em>(1), 1-48. <a href="https://doi.org/10.18637/jss.v067.i01" class="uri">https://doi.org/10.18637/jss.v067.i01</a>.</p>
 <p>Betebenner, D. W., Van Iwaarden, A. R., Domingue, B. &amp; Shang, Y. (2022). SGP: Student Growth Percentiles &amp; Percentile Growth Trajectories. R package version 1.9-9.987. URL: <a href="https://sgp.io" class="uri">https://sgp.io</a></p>
 <p>Betebenner, D. W., Van Iwaarden, A. R., &amp; Domingue, B. (2021). SGPdata: Exemplar data sets for student growth percentile (SGP) analyses. R package version 25.1-0.0. <a href="https://centerforassessment.github.io/SGPdata/" class="uri">https://centerforassessment.github.io/SGPdata/</a></p>
@@ -735,40 +764,40 @@
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#introduction">Introduction<span></span></a></li>
       <li>
-<a href="#the-missing-data-problem">The Missing Data Problem</a>
+<a href="#the-missing-data-problem">The Missing Data Problem<span></span></a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#the-case-for-multiple-imputation-methods">The case for multiple imputation methods</a></li>
+<li><a href="#the-case-for-multiple-imputation-methods">The case for multiple imputation methods<span></span></a></li>
       </ul>
 </li>
       <li>
-<a href="#simulating-missing-data">Simulating Missing Data</a>
+<a href="#simulating-missing-data">Simulating Missing Data<span></span></a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#data-retrieval-and-working-directory-setup">Data retrieval and working directory setup</a></li>
-      <li><a href="#the-ampute-function">The <code>ampute</code> function</a></li>
-      <li><a href="#missing-data-explorationvisualization">Missing data exploration/visualization</a></li>
+<li><a href="#data-retrieval-and-working-directory-setup">Data retrieval and working directory setup<span></span></a></li>
+      <li><a href="#the-ampute-function">The <code>ampute</code> function<span></span></a></li>
+      <li><a href="#missing-data-explorationvisualization">Missing data exploration/visualization<span></span></a></li>
       </ul>
 </li>
       <li>
-<a href="#multiple-imputation">Multiple Imputation</a>
+<a href="#multiple-imputation">Multiple Imputation<span></span></a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#the-three-steps-of-multiple-imputation">The three steps of multiple imputation</a></li>
-      <li><a href="#multiple-imputation-with-simulated-missing-data">Multiple imputation with simulated missing data</a></li>
-      <li><a href="#step-1---data-imputation">Step 1 - data imputation</a></li>
-      <li><a href="#step-23---imputation-analysis-and-results-pooling">Step 2/3 - imputation analysis and results pooling</a></li>
-      <li><a href="#data-imputation-with-2l-pan">Data imputation with <code>2l.pan</code></a></li>
-      <li><a href="#step-1b---create-new-imputed-results">Step 1b - create new imputed results</a></li>
-      <li><a href="#step-23---imputation-analysis-and-pooling-with-2l-pan">Step 2/3 - imputation analysis and pooling with <code>2l.pan</code></a></li>
+<li><a href="#the-three-steps-of-multiple-imputation">The three steps of multiple imputation<span></span></a></li>
+      <li><a href="#multiple-imputation-with-simulated-missing-data">Multiple imputation with simulated missing data<span></span></a></li>
+      <li><a href="#step-1---data-imputation">Step 1 - data imputation<span></span></a></li>
+      <li><a href="#step-23---imputation-analysis-and-results-pooling">Step 2/3 - imputation analysis and results pooling<span></span></a></li>
+      <li><a href="#data-imputation-with-2l-pan">Data imputation with <code>2l.pan</code><span></span></a></li>
+      <li><a href="#step-1b---create-new-imputed-results">Step 1b - create new imputed results<span></span></a></li>
+      <li><a href="#step-23---imputation-analysis-and-pooling-with-2l-pan">Step 2/3 - imputation analysis and pooling with <code>2l.pan</code><span></span></a></li>
       </ul>
 </li>
-      <li><a href="#things-to-consider">Things to consider:</a></li>
+      <li><a href="#things-to-consider">Things to consider:<span></span></a></li>
       <li>
-<a href="#citations-and-references">Citations and References</a>
+<a href="#citations-and-references">Citations and References<span></span></a>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#missing-data-simulation">Missing Data Simulation</a></li>
-      <li><a href="#multiple-imputation-1">Multiple Imputation</a></li>
-      <li><a href="#data-and-analytics">Data and Analytics</a></li>
+<li><a href="#missing-data-simulation">Missing Data Simulation<span></span></a></li>
+      <li><a href="#multiple-imputation-1">Multiple Imputation<span></span></a></li>
+      <li><a href="#data-and-analytics">Data and Analytics<span></span></a></li>
       </ul>
 </li>
       </ul>
