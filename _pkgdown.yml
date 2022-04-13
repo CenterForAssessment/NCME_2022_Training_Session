@@ -9,7 +9,7 @@ DESCRIPTION:
   BugReports: https://github.com/CenterForAssessment/NCME_2022_Training_Session/issues
 
 template:
-  package: centerPackageTemplate
+  package: centerProjectTemplate
   default_assets: false
 
 

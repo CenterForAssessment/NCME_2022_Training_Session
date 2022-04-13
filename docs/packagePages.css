@@ -1109,9 +1109,6 @@ img {
 .img-rounded {
   border-radius: 3px; }
 
-.img-author {
-  clip-path: circle(10px at center); }
-
 .img-thumbnail {
   padding: 4px;
   line-height: 1.846;
@@ -1127,6 +1124,9 @@ img {
 
 .img-circle {
   border-radius: 50%; }
+
+.img-author {
+  clip-path: circle(10px at center); }
 
 hr {
   margin-top: 27px;
@@ -3199,7 +3199,7 @@ tbody.collapse.in {
   list-style: none;
   font-size: 15px;
   text-align: left;
-  background-color: rgba(235, 251, 251, 0.92);
+  background-color: #e4f16fd9;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
@@ -3962,7 +3962,7 @@ tbody.collapse.in {
     .navbar-right ~ .navbar-right {
       margin-right: 0; } }
 .navbar-default {
-  background-image: linear-gradient(to bottom, #e4f4f4 0%, #80e4e4 100%);
+  background-image: linear-gradient(to bottom, #f4fda6 0%, #b6e202 100%);
   border-color: transparent; }
   .navbar-default .navbar-brand {
     color: #444; }
@@ -3999,11 +3999,11 @@ tbody.collapse.in {
   .navbar-default .navbar-form {
     border-color: transparent; }
   .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    background-color: #ebfbfb;
+    background-color: #e4f16fd9;
     color: #111;
-    border-left: 1px solid #bdd;
-    border-right: 1px solid #bdd;
-    border-top: 1px solid #bdd;
+    border-left: 1px solid #cece29;
+    border-right: 1px solid #cece29;
+    border-top: 1px solid #cece29;
     border-radius: 5px 5px 0px 0px;
     padding-bottom: 0px;
     padding-top: 5px;
@@ -6431,9 +6431,9 @@ input[type="checkbox"],
 
 .dropdown-menu {
   margin-top: 0;
-  border-right: 1px solid #bdd;
-  border-left: 1px solid #bdd;
-  border-bottom: 1px solid #bdd;
+  border-right: 1px solid #cece29;
+  border-left: 1px solid #cece29;
+  border-bottom: 1px solid #cece29;
   border-top: transparent; }
 
 .alert {
