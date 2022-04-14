@@ -3199,7 +3199,7 @@ tbody.collapse.in {
   list-style: none;
   font-size: 15px;
   text-align: left;
-  background-color: #e4f16fd9;
+  background-color: #e2f574e9;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px;
@@ -3999,11 +3999,11 @@ tbody.collapse.in {
   .navbar-default .navbar-form {
     border-color: transparent; }
   .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    background-color: #e4f16fd9;
+    background-color: #e2f574e9;
     color: #111;
-    border-left: 1px solid #cece29;
-    border-right: 1px solid #cece29;
-    border-top: 1px solid #cece29;
+    border-left: 1px solid #cece99;
+    border-right: 1px solid #cece99;
+    border-top: 1px solid #cece99;
     border-radius: 5px 5px 0px 0px;
     padding-bottom: 0px;
     padding-top: 5px;
@@ -6431,9 +6431,9 @@ input[type="checkbox"],
 
 .dropdown-menu {
   margin-top: 0;
-  border-right: 1px solid #cece29;
-  border-left: 1px solid #cece29;
-  border-bottom: 1px solid #cece29;
+  border-right: 1px solid #cece99;
+  border-left: 1px solid #cece99;
+  border-bottom: 1px solid #cece99;
   border-top: transparent; }
 
 .alert {
