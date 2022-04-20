@@ -49,7 +49,7 @@ some of the major ones (e.g., cancelled testing).
 
 [Overview & Background Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Overview_and_Background.html)
 
-### Software Preparations: April 10, 2:00 to 2:30
+### Software Preparations: April 10, 2:00 to 2:30 [@dbetebenner](https://github.com/dbetebenner) & [@adamvi](https://github.com/adamvi)
 
 Training session participants will need to have R installed with several R packages in order to follow along with analyses being conducted as part of
 the training session.
@@ -71,10 +71,12 @@ demographic subgroups.
 
 Descriptive examination of missing data patterns.
 
+[Missing Data (Part 1) Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Nathan_Presentation_1.html)
+
 ### Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
 
 
-### Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamviAdam)
+### Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamvi)
 
 Multiple Imputation with Missing Data: A substantial issue associated with assessment data from 2021 was whether aggregate results
 (e.g., school level results) could be compared to previous year due to missing data (non-tested students) and changing enrollment. As part of
