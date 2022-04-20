@@ -35,7 +35,11 @@ xaringanExtra::style_share_again(
 
 ```{r xaringan-logo, echo=FALSE, eval = TRUE}
 xaringanExtra::use_logo(
-  image_url = "https://centerforassessment.github.io/assets/favicon.png"
+  image_url = "https://centerforassessment.github.io/assets/favicon.png",
+  width = "55px",
+  height = "64px",
+  position = xaringanExtra::css_position(top = "0.5em", right = "0.5em"),
+  link_url = "https://www.nciea.org"
 )
 ```
 
@@ -86,7 +90,7 @@ xaringanExtra::use_clipboard()
 
 --
 
-  - unrepresentative samples 
+  - unrepresentative samples
 
 --
 
@@ -118,9 +122,9 @@ xaringanExtra::use_clipboard()
 * Low participation does impact comparisons of group level results with historical results.
   - How should one compare growth and status results for schools in 2019 and 2021 with very different rates of participation?
   - Are they fully representative due to observed patterns of non-participation?
-  - Are populations of interest fundamentally different now? 
+  - Are populations of interest fundamentally different now?
 
-* Low participation *will* impact our ability to 
+* Low participation *will* impact our ability to
   - monitor student recovery
   - appropriate educational resources where most needed
   - make complete, accurate and fair accountability decisions for teachers, schools, districts, etc. going forward.
@@ -138,7 +142,7 @@ xaringanExtra::use_clipboard()
 --
 
   - Step 1. Simulate various potential missing data patterns and extents
-  
+
 --
 
   - Step 2. Compare multiple imputation methods
@@ -159,9 +163,9 @@ xaringanExtra::use_clipboard()
 
 - To keep things quick and simple, we use a subset restricted to the 2021 7<sup>th</sup> grade ELA cohort.
 
-- Take a complete subset of the data and create missing data patterns only in the student score variables. 
-  - No demographic, school/district identifiers, etc. will be made missing. 
-  - Students are known to be enrolled in a school, but were not tested. 
+- Take a complete subset of the data and create missing data patterns only in the student score variables.
+  - No demographic, school/district identifiers, etc. will be made missing.
+  - Students are known to be enrolled in a school, but were not tested.
   - Enrollment and demographics are essential to estimate school and subgroup impact.
   - Need to know who is missing!
 
@@ -201,7 +205,7 @@ xaringanExtra::use_clipboard()
 
 * Used extensively in other fields of research
 
-* Shown to produce valid statistical inference 
+* Shown to produce valid statistical inference
 
 * Well developed set an analytic tools available on `R` and other software platforms.
 
@@ -215,7 +219,7 @@ class: inverse, center, middle
 # Simulating Missing Data
 
 * Simulations can help us recognize and anticipate missing data patterns
-  - prepare for problems and understand the utility and limitations of certain methods. 
+  - prepare for problems and understand the utility and limitations of certain methods.
 
 * Can compare "true" results to the missing/observed and imputed data.
 
@@ -248,13 +252,13 @@ wide_data <- wide_data[!(is.na(Z_SCORE.2018) | is.na(Z_SCORE.2019) | is.na(Z_SCO
 
 ##  The `ampute` function
 
-- Developed to provide a systematic process for simulating missing data. 
+- Developed to provide a systematic process for simulating missing data.
 
-- User specified parameters including the proportion, patterns and factors (observed variables) that contribute to missing data. 
+- User specified parameters including the proportion, patterns and factors (observed variables) that contribute to missing data.
   - Excellent vignette [online.](https://rianneschouten.github.io/mice_ampute/vignette/ampute.html#missingness_proportion_per_variable)
 
-- Generate missing data based on prior achievement of students and schools 
-  - Demographic and other variables could be factored in as desired. 
+- Generate missing data based on prior achievement of students and schools
+  - Demographic and other variables could be factored in as desired.
     - E.g., School size could be included as a proxy for low urban participation.
 
 ---
@@ -361,7 +365,7 @@ class: inverse, center, middle
 * Simulation-based procedure
 
 * Purpose is to achieve valid statistical inference in the presence of missing data
-  - not re-creation of "true" values. 
+  - not re-creation of "true" values.
 
 * Use information from the observed data to generate plausible values for missing observations.
 
@@ -373,16 +377,16 @@ class: inverse, center, middle
 
 # Multiple Imputation
 
-* Numerous MI methods available, differentiated by the model used to generate values. 
+* Numerous MI methods available, differentiated by the model used to generate values.
 
-* Can be broadly grouped into those that use 
+* Can be broadly grouped into those that use
   - Joint Modeling (JM)
-  - Fully Conditional Specification (FCS). 
-  
-* JM assumes a multivariate (typically normal) distribution 
-  - imputations are drawn from it at the same time. 
+  - Fully Conditional Specification (FCS).
+
+* JM assumes a multivariate (typically normal) distribution
+  - imputations are drawn from it at the same time.
   - better theoretical underpinnings
-* FCS, also known as MI with chained equations (MICE), imputes data one variable at a time in an iterative fashion. 
+* FCS, also known as MI with chained equations (MICE), imputes data one variable at a time in an iterative fashion.
   - different imputation model and/or set of predictors possible for each variable.
   - flexible and can preserve unique features of the data
 
@@ -412,11 +416,11 @@ magick::image_read("Figures/ch01-miflow-1.png")
 
 - Continue where we left off with the simulation of missing data
 
-- First select the factors we want to include in our imputation model(s). 
-  - feign ignorance of the underlying missing data generating process 
+- First select the factors we want to include in our imputation model(s).
+  - feign ignorance of the underlying missing data generating process
   - use student (and school aggregates of) achievement and FRL status
 
-- Only student level (standardized) scale scores are missing and will be imputed. 
+- Only student level (standardized) scale scores are missing and will be imputed.
   - students known to be enrolled in a school, but not tested
 
 ---
@@ -532,8 +536,8 @@ long_imputed <- as.data.table(complete(imputed_results, action="long", include=T
 single_imputation <- long_imputed[.imp == M-1,] # .imp %in% c(13:17)
 
 source("Helper_Scripts/MI_Data_Comp_Plots.R")
-gridExtra::grid.arrange(truth.p, truth.c, 
-												impute.p, impute.c, 
+gridExtra::grid.arrange(truth.p, truth.c,
+												impute.p, impute.c,
 												ampute.p, ampute.c, ncol=2)
 ```
 
@@ -543,7 +547,7 @@ gridExtra::grid.arrange(truth.p, truth.c,
 
 - Collect the imputations into a `list` object and convert each back into longitudinal form. Do this for `wide_data` as well for complete and observed data.
 
-- Conduct `M` sets of post-imputation analyses and one set of pooled results. 
+- Conduct `M` sets of post-imputation analyses and one set of pooled results.
 
 - Run identical analyses using both the complete and observed data.
 
@@ -561,10 +565,10 @@ source("Helper_Scripts/Data_Retrieval_for_Analysis.R")
 ### Linear mixed effects model
 
 We run is a linear mixed effects model here because it is a fairly interesting, and popular, model for analyzing
-longitudinal data for students nested within schools. 
+longitudinal data for students nested within schools.
 
 - Also provides parameters that have well documented and operationalized procedures for pooling.
-  - The parameter of interest is a fixed effect estimate for COVID impact. 
+  - The parameter of interest is a fixed effect estimate for COVID impact.
   - Get pooled estimate of this along with standard errors and t values from `merTools` package.
 
 ``` {r pmm_hlm}
@@ -584,38 +588,38 @@ source("Helper_Scripts/MI_LME_Model_Comp.R")
 ### Baseline student growth percentiles
 
 * Baseline SGPs are a different take on normative growth.
-  - Referenced against a prior cohort of interest. 
+  - Referenced against a prior cohort of interest.
   - "Super-cohort" comprised of several years of students with a common course/grade progression
   - a single, particular, cohort
-  - 2019 cohorts form the baselines for impact analyses. 
-  
-* Baseline comparisons use to examine if the system/parts are improving (or declining) over time relative
-to the established baseline. 
+  - 2019 cohorts form the baselines for impact analyses.
 
-* Major assumption required is that the scale scores are well anchored. 
+* Baseline comparisons use to examine if the system/parts are improving (or declining) over time relative
+to the established baseline.
+
+* Major assumption required is that the scale scores are well anchored.
   - If not, then any deviation from "typical" growth may be an artifact of test scaling.
 
 ---
 
 ### Baseline student growth percentiles
 
-- In the COVID impact analyses, we expected to (and did) see median SGP values well below 50 at state, district and school levels. 
+- In the COVID impact analyses, we expected to (and did) see median SGP values well below 50 at state, district and school levels.
 
 - Beyond 2021, we hope to see that systems are improving (recovering) over time.
-  - median SGPs greater than 50 
+  - median SGPs greater than 50
   - what *was* typical growth in the past is now lower growth.
 
 ---
 
 ###  Running Baseline SGPs
 
-- Create baseline SGPs for the 2021 7<sup>th</sup> grade ELA cohort for the complete, missing/observed and 20 imputed data sets. 
+- Create baseline SGPs for the 2021 7<sup>th</sup> grade ELA cohort for the complete, missing/observed and 20 imputed data sets.
 
 - Several objects of interest are returned:
   - `Complete_SGP` and `Missing_SGP`, which are SGP class objects
   -  a single data table - `Imputed_SGP_Data`, with results using imputation data
   - `SGP_Imputation_Summaries` object with estimates for school level values (mean scores, pooled errors, etc.)
-  
+
 ``` {r pmm_sgp}
 ##   Run Baseline SGP analyses using complete, missing (observed), and imputed data
 source("Helper_Scripts/SGP_Baseline_Analyses.R")
@@ -627,10 +631,10 @@ source("Helper_Scripts/SGP_Baseline_Analyses.R")
 ###  Pooling Baseline SGPs
 
 We want to quantify COVID impact at various institutional and subgroup levels in
-metrics that would 
-  1) be meaningful to both stakeholders and fellow researchers and 
-  2) communicate additional uncertainty due to missing data. 
-  
+metrics that would
+  1) be meaningful to both stakeholders and fellow researchers and
+  2) communicate additional uncertainty due to missing data.
+
 Some of the statistics we calculated included:
 
   * Mean/median scale scores (2021 status)
@@ -643,10 +647,10 @@ Some of the statistics we calculated included:
 
 ###  Pooling Baseline SGPs
 
-* Caterpillar plots show 2021 estimates of school mean scale scores and baseline SGPs from each data type. 
+* Caterpillar plots show 2021 estimates of school mean scale scores and baseline SGPs from each data type.
   - *red* points and lines correspond to values from the complete data analysis
   - observed values are *black*
-  - *green* pertains to imputations. 
+  - *green* pertains to imputations.
   - Error bars are for the pooled imputations, color coded by significance levels (difference between imputed and observed values).
 
 ``` {r pmm_make_catplots}
@@ -667,8 +671,8 @@ or growth than what was indicated in the missing data.
 ##  Data imputation with `2l.pan`
 
 - Users can change the imputation method and repeat the steps starting after `impute_subset` is set up.
-  - iterative process of changing imputation methods, predictor factors or any other parameters.  
-  
+  - iterative process of changing imputation methods, predictor factors or any other parameters.
+
 - Use the `2l.pan` cross-sectional model (students nested within schools)
 - Remove `FRL` and `PERCENT_INST_FRL` from the predictors (we know those factors were not use to generate missing data).
 

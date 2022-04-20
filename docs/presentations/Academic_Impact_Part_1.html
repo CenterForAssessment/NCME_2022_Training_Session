@@ -58,14 +58,14 @@ class: inverse, center, middle
 
 <div>
 <style type="text/css">.xaringan-extra-logo {
-width: 110px;
-height: 128px;
+width: 55px;
+height: 64px;
 z-index: 0;
 background-image: url(https://centerforassessment.github.io/assets/favicon.png);
 background-size: contain;
 background-repeat: no-repeat;
 position: absolute;
-top:1em;right:1em;
+top:0.5em;right:0.5em;
 }
 </style>
 <script>(function () {
@@ -79,9 +79,9 @@ top:1em;right:1em;
     } else {
       document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
         .forEach(function (slide) {
-          const logo = document.createElement('div')
+          const logo = document.createElement('a')
           logo.classList = 'xaringan-extra-logo'
-          logo.href = null
+          logo.href = 'https://www.nciea.org'
           slide.appendChild(logo)
         })
     }

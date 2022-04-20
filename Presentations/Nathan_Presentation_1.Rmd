@@ -33,7 +33,11 @@ xaringanExtra::style_share_again(
 
 ```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
-  image_url = "https://centerforassessment.github.io/assets/favicon.png"
+  image_url = "https://centerforassessment.github.io/assets/favicon.png",
+  width = "55px",
+  height = "64px",
+  position = xaringanExtra::css_position(top = "0.5em", right = "0.5em"),
+  link_url = "https://www.nciea.org"
 )
 ```
 
@@ -44,4 +48,3 @@ xaringanExtra::use_tile_view()
 ```{r xaringanExtra-clipboard, echo=FALSE}
 xaringanExtra::use_clipboard()
 ```
-
