@@ -1,6 +1,6 @@
 ---
-title: "Data Visualization and Analysis in the Era of COVID-19"
-subtitle: "Overview & Background"
+title: "Overview & Background"
+subtitle: "Data Visualization and Analysis in the Era of COVID-19"
 author: "Damian Betebenner, Adam VanIwaarden & Nathan Dadey"
 institute: "Center for Assessment"
 date: "February 18th, 2022 (updated: `r toOrdinal::toOrdinalDate(Sys.Date())`)"

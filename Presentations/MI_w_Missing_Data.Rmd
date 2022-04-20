@@ -1,6 +1,6 @@
 ---
-title: "Data Visualization and Analysis in the Era of COVID-19"
-subtitle: "Multiple Imputation with Simulated Missing Data"
+title: "Multiple Imputation with Simulated Missing Data"
+subtitle: "Data Visualization and Analysis in the Era of COVID-19"
 author: "Adam VanIwaarden, Damian Betebenner & Nathan Dadey"
 institute: "Center for Assessment"
 date: "`r toOrdinal::toOrdinalDate(Sys.Date())`"
