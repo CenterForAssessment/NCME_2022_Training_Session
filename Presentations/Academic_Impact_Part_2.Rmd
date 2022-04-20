@@ -1,6 +1,6 @@
 ---
-title: "Data Visualization and Analysis in the Era of COVID-19"
-subtitle: "Academic Impact Part 2"
+title: "Academic Impact Part 2"
+subtitle: "Data Visualization and Analysis in the Era of COVID-19"
 author: "Damian Betebenner, Adam VanIwaarden & Nathan Dadey"
 institute: "Center for Assessment"
 date: "March 22nd, 2022 (updated: `r toOrdinal::toOrdinalDate(Sys.Date())`)"
@@ -26,7 +26,9 @@ xaringanExtra::use_share_again()
 
 ```{r style-share-again, echo=FALSE}
 xaringanExtra::style_share_again(
-  share_buttons = c("twitter")
+  share_buttons = c("twitter"),
+  background = "#009C49",
+  foreground = "#FFFFFF"
 )
 ```
 
@@ -44,6 +46,12 @@ xaringanExtra::use_tile_view()
 xaringanExtra::use_clipboard()
 ```
 
+```{r load-packages, include=FALSE}
+library(data.table)
+library(SGP)
+library(SGPdata)
+library(splines)
+```
 
 # Academic Impact
 
@@ -82,9 +90,6 @@ magick::image_read_pdf("Figures/Carlson_Four_Quadrant_Figure.pdf")
 
 - Load the package into your R environment:
 
-```{r eval=TRUE, tidy=FALSE}
-require("SGPdata")
-```
 
 - Explore the dataset:
 
@@ -96,12 +101,11 @@ summary(sgpData_LONG_COVID)
 
 # Status Based Academic Impact
 
-- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.  
+- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.
 
 - We begin by analyzing ECDFs for Grade 8 mathematics in 2019 versus Grade 8 mathematics in 2021.
 
-```{r tidy=FALSE, cache=TRUE}
-require(data.table)
+```{r eval=TRUE, tidy=FALSE, cache=TRUE}
 math_g8_2019 <- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" & GRADE=="8" & YEAR=="2019"]
 math_g8_2021 <- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" & GRADE=="8" & YEAR=="2021"]
 math_g8_2019_quantiles <- quantile(math_g8_2019$SCALE_SCORE, probs=0:100/100)
@@ -110,7 +114,7 @@ math_g8_2021_quantiles <- quantile(math_g8_2021$SCALE_SCORE, probs=0:100/100)
 
 ---
 
-## Academic Impact: Status 
+## Academic Impact: Status
 
 ```{r echo=FALSE}
 magick::image_read_pdf("Figures/Academic_Impact_Status_GRID.pdf")
@@ -118,7 +122,7 @@ magick::image_read_pdf("Figures/Academic_Impact_Status_GRID.pdf")
 
 ---
 
-## Create Plot of Status Based Academic Impact 
+## Create Plot of Status Based Academic Impact
 
 ```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
 par(mai=c(0.5, 0.5, 0.25, 0))
@@ -131,7 +135,7 @@ axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
 
 ---
 
-## Create Plot of Status Based Academic Impact 
+## Create Plot of Status Based Academic Impact
 
 ```{r eval=TRUE, tidy=FALSE, fig.height=4, fig.align='center'}
 par(mai=c(0.5, 0.5, 0.25, 0))
@@ -145,10 +149,10 @@ abline(h=c(472, 500, 542), lty=2, col="blue")
 
 ---
 
-## Identifying percent at/above proficient 
+## Identifying percent at/above proficient
 
-- Normally, you will have the percentage of students in a grade/content area at above proficient. 
-- However, they can be derived from the data we are using. 
+- Normally, you will have the percentage of students in a grade/content area at above proficient.
+- However, they can be derived from the data we are using.
 - From above, we know that 577 is the proficient cutscore for grade 8, mathematics
 - We can use ECDFs to calculate these
 
@@ -177,8 +181,6 @@ abline(v=c(55.26, 43.58), col="black", lty=3)
 ## To facilitate plotting convert LONG data to WIDE data
 
 ```{r eval=FALSE}
-require("SGP")
-require("SGPdata")
 SGP::outputSGP(sgpData_LONG_COVID, output.type='WIDE')
 ```
 
@@ -200,7 +202,6 @@ detach(g8_2019_2021_data)
 ## Calculate conditional status splines
 
 ```{r eval=FALSE}
-require(splines)
 load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
 g8_2019_2021_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" & GRADE.2021.MATHEMATICS=="8"]
 g8_2017_2019_data <- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" & GRADE.2019.MATHEMATICS=="8"]
@@ -231,4 +232,3 @@ detach(g8_2019_2021_data)
 magick::image_read_pdf("Figures/Grade_6_2019_to_Grade_8_2021_Math.pdf")
 ```
 ---
-

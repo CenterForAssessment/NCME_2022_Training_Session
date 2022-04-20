@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data Visualization and Analysis in the Era of COVID-19</title>
+    <title>Academic Impact Part 2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Damian Betebenner, Adam VanIwaarden &amp; Nathan Dadey" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -23,10 +23,10 @@
 class: center, middle, my-title, title-slide
 
 .title[
-# Data Visualization and Analysis in the Era of COVID-19
+# Academic Impact Part 2
 ]
 .subtitle[
-## Academic Impact Part 2
+## Data Visualization and Analysis in the Era of COVID-19
 ]
 .author[
 ### Damian Betebenner, Adam VanIwaarden &amp; Nathan Dadey
@@ -35,7 +35,7 @@ class: center, middle, my-title, title-slide
 ### Center for Assessment
 ]
 .date[
-### March 22nd, 2022 (updated: April 11th, 2022)
+### March 22nd, 2022 (updated: April 20th, 2022)
 ]
 
 ---
@@ -47,8 +47,8 @@ class: inverse, center, middle
 
 
 <style>.shareagain-bar {
---shareagain-foreground: rgb(255, 255, 255);
---shareagain-background: rgba(0, 0, 0, 0.5);
+--shareagain-foreground: #FFFFFF;
+--shareagain-background: #009C49;
 --shareagain-facebook: none;
 --shareagain-linkedin: none;
 --shareagain-pinterest: none;
@@ -95,6 +95,7 @@ top:1em;right:1em;
 
 
 
+
 # Academic Impact
 
 ---
@@ -131,14 +132,6 @@ top:1em;right:1em;
 - Load the package into your R environment:
 
 
-```r
-require("SGPdata")
-```
-
-```
-## Loading required package: SGPdata
-```
-
 - Explore the dataset:
 
 
@@ -150,13 +143,12 @@ summary(sgpData_LONG_COVID)
 
 # Status Based Academic Impact
 
-- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.  
+- To analyze and visualize status based impact we will investigate changes to the Empirical Cummulative Distribution Functions (ECDFs) for grade by cohort pairs.
 
 - We begin by analyzing ECDFs for Grade 8 mathematics in 2019 versus Grade 8 mathematics in 2021.
 
 
 ```r
-require(data.table)
 math_g8_2019 &lt;- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="8" &amp; YEAR=="2019"]
 math_g8_2021 &lt;- sgpData_LONG_COVID[CONTENT_AREA=="MATHEMATICS" &amp; GRADE=="8" &amp; YEAR=="2021"]
 math_g8_2019_quantiles &lt;- quantile(math_g8_2019$SCALE_SCORE, probs=0:100/100)
@@ -165,13 +157,13 @@ math_g8_2021_quantiles &lt;- quantile(math_g8_2021$SCALE_SCORE, probs=0:100/100)
 
 ---
 
-## Academic Impact: Status 
+## Academic Impact: Status
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-5-1.png" width="3184" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-4-1.png" width="3184" /&gt;
 
 ---
 
-## Create Plot of Status Based Academic Impact 
+## Create Plot of Status Based Academic Impact
 
 
 ```r
@@ -183,11 +175,11 @@ axis(1, at=0:10*10)
 axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
 ```
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Create Plot of Status Based Academic Impact 
+## Create Plot of Status Based Academic Impact
 
 
 ```r
@@ -200,14 +192,14 @@ axis(2, at=c(350, 400, 450, 500, 550, 600, 650, 700), cex.axis=0.7)
 abline(h=c(472, 500, 542), lty=2, col="blue")
 ```
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Identifying percent at/above proficient 
+## Identifying percent at/above proficient
 
-- Normally, you will have the percentage of students in a grade/content area at above proficient. 
-- However, they can be derived from the data we are using. 
+- Normally, you will have the percentage of students in a grade/content area at above proficient.
+- However, they can be derived from the data we are using.
 - From above, we know that 577 is the proficient cutscore for grade 8, mathematics
 - We can use ECDFs to calculate these
 
@@ -244,7 +236,7 @@ abline(h=c(472, 500, 542), lty=2, col="blue")
 abline(v=c(55.26, 43.58), col="black", lty=3)
 ```
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -252,8 +244,6 @@ abline(v=c(55.26, 43.58), col="black", lty=3)
 
 
 ```r
-require("SGP")
-require("SGPdata")
 SGP::outputSGP(sgpData_LONG_COVID, output.type='WIDE')
 ```
 
@@ -270,7 +260,7 @@ attach(g8_2019_2021_data)
 plot(SCALE_SCORE.2019.MATHEMATICS, SCALE_SCORE.2021.MATHEMATICS, pch=".", cex=0.5, xlab="Scaled Score 2019: Grade 6", ylab="Scaled Score 2021: Grade 8")
 ```
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 ```r
 detach(g8_2019_2021_data)
@@ -282,7 +272,6 @@ detach(g8_2019_2021_data)
 
 
 ```r
-require(splines)
 load('Data/Demonstration_COVID_SGP_WIDE_Data.Rdata')
 g8_2019_2021_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2019.MATHEMATICS=="6" &amp; GRADE.2021.MATHEMATICS=="8"]
 g8_2017_2019_data &lt;- Demonstration_COVID_SGP_WIDE_Data[GRADE.2017.MATHEMATICS=="6" &amp; GRADE.2019.MATHEMATICS=="8"]
@@ -310,9 +299,8 @@ detach(g8_2019_2021_data)
 
 ---
 
-&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-14-1.png" width="3151" /&gt;
+&lt;img src="Academic_Impact_Part_2_files/figure-html/unnamed-chunk-13-1.png" width="3151" /&gt;
 ---
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
