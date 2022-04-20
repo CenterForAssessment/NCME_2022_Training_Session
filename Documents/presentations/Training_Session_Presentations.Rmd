@@ -64,7 +64,7 @@ demographic subgroups.
 <br>
 <br>
 
-## Nathan Dadey's Presentation
+## Descriptive Examination of Missing Data Patterns
 ### April 10th, 3:45 to 4:45pm
 
 ```{r, echo = FALSE}

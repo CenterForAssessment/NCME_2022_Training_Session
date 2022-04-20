@@ -67,7 +67,7 @@ demographic subgroups.
 
 [Academic Impact Part 1 Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_1.html)
 
-### Missing Data (Part 1): April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
+### Descriptive Examination of Missing Data Patterns: April 10, 3:45 to 4:45 pm [@ndadey](https://github.com/ndadey)
 
 Descriptive examination of missing data patterns.
 
@@ -75,6 +75,7 @@ Descriptive examination of missing data patterns.
 
 ### Summary and next steps: April 10, 4:45 to 5:00 pm [@dbetebenner](https://github.com/dbetebenner)
 
+Wrap-up question and answer of day 1 and an overview of what will be discussed during day 2.
 
 ### Missing Data (Part 2): April 11, 1 to 3:00 pm [@adamvi](https://github.com/adamvi)
 
@@ -99,3 +100,5 @@ demographic subgroups.
 [Academic Impact Part 2 Presentation](https://centerforassessment.github.io/NCME_2022_Training_Session/articles/presentations/Academic_Impact_Part_2.html)
 
 ### Wrap-up/Q&A: April 11, 4:45 to 5:00 pm
+
+Wrap-up question and answer for the training session.  
