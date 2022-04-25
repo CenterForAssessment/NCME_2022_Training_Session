@@ -54,7 +54,7 @@ mss.cat <-
 
 if (!run.vignette) {
 	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=7, height = 5)
-	mss.cat
+	print(mss.cat)
 	dev.off()
 }
 ##    Estimates by Percent Missing (and School Size)
@@ -85,7 +85,7 @@ mss.pctm <-
 
 if (!run.vignette) {
 	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Achievment_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=9, height = 5)
-	mss.pctm
+	print(mss.pctm)
 	dev.off()
 }
 
@@ -136,7 +136,7 @@ msgp.cat <-
 
 if (!run.vignette) {
 	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Growth_Catepillar__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=7, height = 5)
-	msgp.cat
+	print(msgp.cat)
 	dev.off()
 }
 
@@ -168,6 +168,6 @@ msgp.pctm <-
 
 if (!run.vignette) {
 	pdf(file.path(plot.dir, paste0("ELA_7_Sch_Growth_Pct_Missing__", gsub("[.]", "_", toupper(impute.method)), ".pdf")), width=9, height = 5)
-	msgp.pctm
+	print(msgp.pctm)
 	dev.off()
 }
